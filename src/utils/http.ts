@@ -1,6 +1,6 @@
 import axios from 'axios';
 import querystring from 'querystring';
-import { WEB_API } from '../utils/variablesRepo';
+import { AUTH_SERVER } from '../utils/variablesRepo';
 
 export function authorize(reqConfig: any, token: any) {
     if (!reqConfig.headers) {
@@ -14,7 +14,7 @@ export function authorize(reqConfig: any, token: any) {
 export function refreshToken(token: any) {
     return axios({
         method: 'POST',
-        url: WEB_API + 'token',
+        url: AUTH_SERVER + 'token',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },

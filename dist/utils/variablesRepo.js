@@ -1,4 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ANDROID_APP_ID = 'famo.pda', exports.LOG_DATETIME_FORMAT = 'DD/MM/YYYY HH:mm:ss.SSS', exports.LOG_FOLDER = __dirname.replace('dist\\utils', 'log\\'), exports.MONTH_MS = 2592000000, exports.SESSION_NAME = 'PDA_AUTH', exports.WEB_API = process.env.NODE_ENV === 'production' ? 'http://dionisio.famo.pt:9060/FAMO.WebAPI/' : 'http://localhost/FAMO.WebAPI/';
+exports.ANDROID_APP_ID = 'famo.pda', exports.API = process.env.NODE_ENV === 'production' ? 'http://dionisio.famo.pt:9060/FAMO.CODE_API/' : 'http://localhost/FAMO.CODE_API/', exports.AUTH_SERVER = process.env.NODE_ENV === 'production' ? 'http://dionisio.famo.pt:9060/FAMO.Authentication/' : 'http://localhost/FAMO.Authentication/', exports.LOG_DATETIME_FORMAT = 'DD/MM/YYYY HH:mm:ss.SSS', exports.LOG_FOLDER = __dirname.replace('dist\\utils', 'log\\'), exports.MONTH_MS = 2592000000, exports.SESSION_NAME = 'PDA_AUTH';
 //# sourceMappingURL=variablesRepo.js.map

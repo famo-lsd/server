@@ -4,14 +4,14 @@ import httpStatus from 'http-status';
 import Log from '../utils/log';
 import querystring from 'querystring';
 import { checkToken } from '../utils/middleware';
-import { SESSION_NAME, WEB_API } from '../utils/variablesRepo';
+import { SESSION_NAME, API, AUTH_SERVER } from '../utils/variablesRepo';
 
 const router = express.Router();
 
 function getAuthUser(accessToken: string, username: string) {
     return axios({
         method: 'POST',
-        url: WEB_API + 'api/Authorization/PDA',
+        url: API + 'api/Authorization/PDA',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + accessToken
@@ -25,7 +25,7 @@ function getAuthUser(accessToken: string, username: string) {
 function signIn(req: any, res: any, username: string = null, password: string = null) {
     axios({
         method: 'POST',
-        url: WEB_API + 'token',
+        url: AUTH_SERVER + 'token',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },

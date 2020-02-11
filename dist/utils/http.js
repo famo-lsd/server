@@ -17,7 +17,7 @@ exports.authorize = authorize;
 function refreshToken(token) {
     return axios_1.default({
         method: 'POST',
-        url: variablesRepo_1.WEB_API + 'token',
+        url: variablesRepo_1.AUTH_SERVER + 'token',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },

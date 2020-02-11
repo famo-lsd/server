@@ -15,7 +15,7 @@ router.use(middleware_1.checkToken);
 router.get('/Boxes', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Boxes' + general_1.createQueryString(req.query)
+        url: variablesRepo_1.API + 'api/Navision/Boxes' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
@@ -26,7 +26,7 @@ router.get('/Boxes', (req, res) => {
 router.get('/Inventories', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Inventories'
+        url: variablesRepo_1.API + 'api/Navision/Inventories'
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
@@ -37,7 +37,7 @@ router.get('/Inventories', (req, res) => {
 router.get('/Inventories/Products', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Inventories/Products' + general_1.createQueryString(req.query)
+        url: variablesRepo_1.API + 'api/Navision/Inventories/Products' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
@@ -48,7 +48,7 @@ router.get('/Inventories/Products', (req, res) => {
 router.patch('/Inventories/Products', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'PATCH',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Inventories/Products' + general_1.createQueryString(req.query)
+        url: variablesRepo_1.API + 'api/Navision/Inventories/Products' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
@@ -59,7 +59,7 @@ router.patch('/Inventories/Products', (req, res) => {
 router.get('/Pallets', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Pallets' + general_1.createQueryString(req.query)
+        url: variablesRepo_1.API + 'api/Navision/Pallets' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
@@ -70,7 +70,7 @@ router.get('/Pallets', (req, res) => {
 router.get('/Pallets/Boxes', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Pallets/Boxes' + general_1.createQueryString(req.query)
+        url: variablesRepo_1.API + 'api/Navision/Pallets/Boxes' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
@@ -81,7 +81,7 @@ router.get('/Pallets/Boxes', (req, res) => {
 router.put('/Pallets/Boxes', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'PUT',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Pallets/Boxes' + general_1.createQueryString(req.query),
+        url: variablesRepo_1.API + 'api/Navision/Pallets/Boxes' + general_1.createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -96,7 +96,7 @@ router.put('/Pallets/Boxes', (req, res) => {
 router.post('/Pallets/Close', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'POST',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Pallets/Close' + general_1.createQueryString(req.query),
+        url: variablesRepo_1.API + 'api/Navision/Pallets/Close' + general_1.createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -111,7 +111,7 @@ router.post('/Pallets/Close', (req, res) => {
 router.post('/Pallets/Reopen', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'POST',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Pallets/Reopen' + general_1.createQueryString(req.query),
+        url: variablesRepo_1.API + 'api/Navision/Pallets/Reopen' + general_1.createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -126,7 +126,7 @@ router.post('/Pallets/Reopen', (req, res) => {
 router.get('/Shipments/Boxes', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
-        url: variablesRepo_1.WEB_API + 'api/Navision/Shipments/Boxes' + general_1.createQueryString(req.query)
+        url: variablesRepo_1.API + 'api/Navision/Shipments/Boxes' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
