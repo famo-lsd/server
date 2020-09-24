@@ -8,13 +8,13 @@ const express_1 = __importDefault(require("express"));
 const http_status_1 = __importDefault(require("http-status"));
 const log_1 = __importDefault(require("../utils/log"));
 const querystring_1 = __importDefault(require("querystring"));
-const middleware_1 = require("../utils/middleware");
 const variablesRepo_1 = require("../utils/variablesRepo");
+const middleware_1 = require("../utils/middleware");
 const router = express_1.default.Router();
 function getAuthUser(accessToken, username) {
     return axios_1.default({
         method: 'POST',
-        url: variablesRepo_1.API + 'api/Authorization/PDA',
+        url: variablesRepo_1.CODE_API + 'api/Authorization/PDA',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + accessToken
@@ -40,6 +40,8 @@ function signIn(req, res, username = null, password = null) {
         getAuthUser(tokenRes.data.access_token, !username ? req.body.username : username).then((userAuthRes) => {
             req.session.token = tokenRes.data;
             req.session.authUser = userAuthRes.data;
+            req.session.lel = 0;
+            req.session.save();
             res.send(userAuthRes.data);
         }).catch((userErr) => {
             log_1.default.promiseError(userErr);

@@ -3,15 +3,15 @@ import express from 'express';
 import httpStatus from 'http-status';
 import Log from '../utils/log';
 import querystring from 'querystring';
+import { AUTH_SERVER, CODE_API, SESSION_NAME } from '../utils/variablesRepo';
 import { checkToken } from '../utils/middleware';
-import { SESSION_NAME, API, AUTH_SERVER } from '../utils/variablesRepo';
 
 const router = express.Router();
 
 function getAuthUser(accessToken: string, username: string) {
     return axios({
         method: 'POST',
-        url: API + 'api/Authorization/PDA',
+        url: CODE_API + 'api/Authorization/PDA',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + accessToken
@@ -38,6 +38,9 @@ function signIn(req: any, res: any, username: string = null, password: string = 
         getAuthUser(tokenRes.data.access_token, !username ? req.body.username : username).then((userAuthRes: any) => {
             req.session.token = tokenRes.data;
             req.session.authUser = userAuthRes.data;
+
+            req.session.lel = 0;
+            req.session.save();
 
             res.send(userAuthRes.data);
         }).catch((userErr: any) => {

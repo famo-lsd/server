@@ -35,8 +35,9 @@ app.use(express_session_1.default({
     }),
     secret: 'famo_pda_session_sk',
     cookie: {
-        maxAge: variablesRepo_1.MONTH_MS,
         httpOnly: true,
+        maxAge: variablesRepo_1.MONTH_MS,
+        sameSite: true,
         secure: false
     },
     genid: (req) => {

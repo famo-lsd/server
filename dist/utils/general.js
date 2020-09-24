@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createQueryString = void 0;
 function createQueryString(json) {
     let qs = '';
     for (const key in json) {

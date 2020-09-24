@@ -45,8 +45,9 @@ app.use(session({
     }),
     secret: 'famo_pda_session_sk',
     cookie: {
-        maxAge: MONTH_MS,
         httpOnly: true,
+        maxAge: MONTH_MS,
+        sameSite: true,
         secure: false
     },
     genid: (req: any) => { // eslint-disable-line @typescript-eslint/no-unused-vars
