@@ -142,6 +142,18 @@ router.get('/Shipments', (req: any, res: any) => {
     });
 });
 
+router.get('/Shipments/Products', (req: any, res: any) => {
+    axios(authorize({
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Navision/Shipments/Products' + createQueryString(req.query)
+    }, req.session.token)).then((wsSucc: any) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr: any) => {
+        Log.promiseError(wsErr);
+        res.status(wsErr.response.status).send();
+    });
+});
+
 router.get('/Shipments/Boxes', (req: any, res: any) => {
     axios(authorize({
         method: 'GET',

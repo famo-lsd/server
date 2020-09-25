@@ -134,6 +134,17 @@ router.get('/Shipments', (req, res) => {
         res.status(wsErr.response.status).send();
     });
 });
+router.get('/Shipments/Products', (req, res) => {
+    axios_1.default(http_1.authorize({
+        method: 'GET',
+        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments/Products' + general_1.createQueryString(req.query)
+    }, req.session.token)).then((wsSucc) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr) => {
+        log_1.default.promiseError(wsErr);
+        res.status(wsErr.response.status).send();
+    });
+});
 router.get('/Shipments/Boxes', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
