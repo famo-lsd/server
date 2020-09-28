@@ -3,7 +3,7 @@ import express from 'express';
 import Log from '../utils/log';
 import { authorize } from '../utils/http';
 import { checkToken } from '../utils/middleware';
-import { CODE_API, SHOPFLOOR_API } from '../utils/variablesRepo';
+import { SHOPFLOOR_API } from '../utils/variablesRepo';
 import { createQueryString } from '../utils/general';
 
 const router = express.Router();
@@ -13,7 +13,7 @@ router.use(checkToken);
 router.get('/Boxes', (req: any, res: any) => {
     axios(authorize({
         method: 'GET',
-        url: CODE_API + 'api/Navision/Boxes' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Boxes' + createQueryString(req.query)
     }, req.session.token)).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
@@ -25,7 +25,7 @@ router.get('/Boxes', (req: any, res: any) => {
 router.get('/Inventories', (req: any, res: any) => {
     axios(authorize({
         method: 'GET',
-        url: CODE_API + 'api/Navision/Inventories'
+        url: SHOPFLOOR_API + 'api/Navision/Inventories'
     }, req.session.token)).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
@@ -37,7 +37,7 @@ router.get('/Inventories', (req: any, res: any) => {
 router.get('/Inventories/Products', (req: any, res: any) => {
     axios(authorize({
         method: 'GET',
-        url: CODE_API + 'api/Navision/Inventories/Products' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Inventories/Products' + createQueryString(req.query)
     }, req.session.token)).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
@@ -49,7 +49,7 @@ router.get('/Inventories/Products', (req: any, res: any) => {
 router.patch('/Inventories/Products', (req: any, res: any) => {
     axios(authorize({
         method: 'PATCH',
-        url: CODE_API + 'api/Navision/Inventories/Products' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Inventories/Products' + createQueryString(req.query)
     }, req.session.token)).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
@@ -61,7 +61,7 @@ router.patch('/Inventories/Products', (req: any, res: any) => {
 router.get('/Pallets', (req: any, res: any) => {
     axios(authorize({
         method: 'GET',
-        url: CODE_API + 'api/Navision/Pallets' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Pallets' + createQueryString(req.query)
     }, req.session.token)).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
@@ -73,7 +73,7 @@ router.get('/Pallets', (req: any, res: any) => {
 router.get('/Pallets/Boxes', (req: any, res: any) => {
     axios(authorize({
         method: 'GET',
-        url: CODE_API + 'api/Navision/Pallets/Boxes' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Pallets/Boxes' + createQueryString(req.query)
     }, req.session.token)).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
@@ -85,7 +85,7 @@ router.get('/Pallets/Boxes', (req: any, res: any) => {
 router.put('/Pallets/Boxes', (req: any, res: any) => {
     axios(authorize({
         method: 'PUT',
-        url: CODE_API + 'api/Navision/Pallets/Boxes' + createQueryString(req.query),
+        url: SHOPFLOOR_API + 'api/Navision/Pallets/Boxes' + createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -101,7 +101,7 @@ router.put('/Pallets/Boxes', (req: any, res: any) => {
 router.post('/Pallets/Close', (req: any, res: any) => {
     axios(authorize({
         method: 'POST',
-        url: CODE_API + 'api/Navision/Pallets/Close' + createQueryString(req.query),
+        url: SHOPFLOOR_API + 'api/Navision/Pallets/Close' + createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -117,7 +117,7 @@ router.post('/Pallets/Close', (req: any, res: any) => {
 router.post('/Pallets/Reopen', (req: any, res: any) => {
     axios(authorize({
         method: 'POST',
-        url: CODE_API + 'api/Navision/Pallets/Reopen' + createQueryString(req.query),
+        url: SHOPFLOOR_API + 'api/Navision/Pallets/Reopen' + createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -157,7 +157,7 @@ router.get('/Shipments/Products', (req: any, res: any) => {
 router.get('/Shipments/Boxes', (req: any, res: any) => {
     axios(authorize({
         method: 'GET',
-        url: CODE_API + 'api/Navision/Shipments/Boxes' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Shipments/Boxes' + createQueryString(req.query)
     }, req.session.token)).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
