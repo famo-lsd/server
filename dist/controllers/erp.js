@@ -153,7 +153,7 @@ router.get('/Shipments/Boxes', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.data);
     });
 });
 exports.default = router;
