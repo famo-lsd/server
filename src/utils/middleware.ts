@@ -2,11 +2,6 @@ import Log from "./log";
 import httpStatus from 'http-status';
 import { refreshToken } from "./http";
 
-export function trackRequest(req: any, res: any, next: Function) {
-    Log.tracking(req);
-    next();
-}
-
 export function checkToken(req: any, res: any, next: Function) {
     const token = req.session.token;
 
@@ -30,4 +25,9 @@ export function checkToken(req: any, res: any, next: Function) {
     else {
         next();
     }
+}
+
+export function trackRequest(req: any, res: any, next: Function) {
+    Log.tracking(req);
+    next();
 }

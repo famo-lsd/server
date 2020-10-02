@@ -3,15 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkToken = exports.trackRequest = void 0;
+exports.trackRequest = exports.checkToken = void 0;
 const log_1 = __importDefault(require("./log"));
 const http_status_1 = __importDefault(require("http-status"));
 const http_1 = require("./http");
-function trackRequest(req, res, next) {
-    log_1.default.tracking(req);
-    next();
-}
-exports.trackRequest = trackRequest;
 function checkToken(req, res, next) {
     const token = req.session.token;
     if (token) {
@@ -34,4 +29,9 @@ function checkToken(req, res, next) {
     }
 }
 exports.checkToken = checkToken;
+function trackRequest(req, res, next) {
+    log_1.default.tracking(req);
+    next();
+}
+exports.trackRequest = trackRequest;
 //# sourceMappingURL=middleware.js.map

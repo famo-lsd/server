@@ -20,7 +20,7 @@ router.get('/Boxes', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.get('/Inventories', (req, res) => {
@@ -31,7 +31,7 @@ router.get('/Inventories', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.get('/Inventories/Products', (req, res) => {
@@ -42,7 +42,7 @@ router.get('/Inventories/Products', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.patch('/Inventories/Products', (req, res) => {
@@ -53,7 +53,7 @@ router.patch('/Inventories/Products', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.get('/Pallets', (req, res) => {
@@ -64,7 +64,7 @@ router.get('/Pallets', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.get('/Pallets/Boxes', (req, res) => {
@@ -75,7 +75,7 @@ router.get('/Pallets/Boxes', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.put('/Pallets/Boxes', (req, res) => {
@@ -90,7 +90,7 @@ router.put('/Pallets/Boxes', (req, res) => {
         res.send({ palletID: wsSucc.data });
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.post('/Pallets/Close', (req, res) => {
@@ -105,7 +105,7 @@ router.post('/Pallets/Close', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.post('/Pallets/Reopen', (req, res) => {
@@ -120,7 +120,7 @@ router.post('/Pallets/Reopen', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.get('/Shipments', (req, res) => {
@@ -131,7 +131,7 @@ router.get('/Shipments', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.get('/Shipments/Products', (req, res) => {
@@ -142,7 +142,7 @@ router.get('/Shipments/Products', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 router.get('/Shipments/Boxes', (req, res) => {
@@ -153,7 +153,22 @@ router.get('/Shipments/Boxes', (req, res) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
         log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.data);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+});
+router.post('/Shipments/Boxes', (req, res) => {
+    axios_1.default(http_1.authorize({
+        method: 'POST',
+        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments/Boxes' + general_1.createQueryString(req.query),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(req.body)
+    }, req.session.token)).then((wsSucc) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr) => {
+        log_1.default.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 exports.default = router;

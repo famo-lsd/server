@@ -18,7 +18,7 @@ router.get('/Boxes', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -30,7 +30,7 @@ router.get('/Inventories', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -42,7 +42,7 @@ router.get('/Inventories/Products', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -54,7 +54,7 @@ router.patch('/Inventories/Products', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -66,7 +66,7 @@ router.get('/Pallets', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -78,7 +78,7 @@ router.get('/Pallets/Boxes', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -94,7 +94,7 @@ router.put('/Pallets/Boxes', (req: any, res: any) => {
         res.send({ palletID: wsSucc.data });
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -110,7 +110,7 @@ router.post('/Pallets/Close', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -126,7 +126,7 @@ router.post('/Pallets/Reopen', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -138,7 +138,7 @@ router.get('/Shipments', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -150,7 +150,7 @@ router.get('/Shipments/Products', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
@@ -162,7 +162,23 @@ router.get('/Shipments/Boxes', (req: any, res: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
         Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send();
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+});
+
+router.post('/Shipments/Boxes', (req: any, res: any) => {
+    axios(authorize({
+        method: 'POST',
+        url: SHOPFLOOR_API + 'api/Navision/Shipments/Boxes' + createQueryString(req.query),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(req.body)
+    }, req.session.token)).then((wsSucc: any) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr: any) => {
+        Log.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
     });
 });
 
