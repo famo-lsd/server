@@ -26,7 +26,7 @@ router.get('/Boxes', (req, res) => {
 router.get('/Inventories', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
-        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories'
+        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
@@ -138,6 +138,17 @@ router.get('/Shipments/Products', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments/Products' + general_1.createQueryString(req.query)
+    }, req.session.token)).then((wsSucc) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr) => {
+        log_1.default.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+});
+router.get('/Shipments/Products/Components', (req, res) => {
+    axios_1.default(http_1.authorize({
+        method: 'GET',
+        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments/Products/Components' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
