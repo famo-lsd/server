@@ -4,7 +4,7 @@ import httpStatus from 'http-status';
 import Log from '../utils/log';
 import querystring from 'querystring';
 import { AUTH_SERVER, CODE_API, SESSION_NAME } from '../utils/variablesRepo';
-import { checkToken } from '../utils/middleware';
+import { verifyToken } from '../utils/middleware';
 
 const router = express.Router();
 
@@ -76,7 +76,7 @@ router.get('/SignOut', (req: any, res: any) => {
     });
 });
 
-router.get('/Session/User', checkToken, (req: any, res: any) => {
+router.get('/Session/User', verifyToken, (req: any, res: any) => {
     const authUser = req.session.authUser;
 
     if (authUser) {

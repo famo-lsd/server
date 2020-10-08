@@ -2,13 +2,13 @@ import axios from 'axios';
 import express from 'express';
 import Log from '../utils/log';
 import { authorize } from '../utils/http';
-import { checkToken } from '../utils/middleware';
-import { SHOPFLOOR_API } from '../utils/variablesRepo';
 import { createQueryString } from '../utils/general';
+import { SHOPFLOOR_API } from '../utils/variablesRepo';
+import { verifyToken } from '../utils/middleware';
 
 const router = express.Router();
 
-router.use(checkToken);
+router.use(verifyToken);
 
 router.get('/Boxes', (req: any, res: any) => {
     axios(authorize({

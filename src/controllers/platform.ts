@@ -1,10 +1,10 @@
 import express from 'express';
 import { ANDROID_APP_ID } from '../utils/variablesRepo';
-import { checkToken } from '../utils/middleware';
+import { verifyToken } from '../utils/middleware';
 
 const router = express.Router();
 
-router.use(checkToken);
+router.use(verifyToken);
 
 router.get('/Android', (req: any, res: any) => {
     const prop = 'x-requested-with';

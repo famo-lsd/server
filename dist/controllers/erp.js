@@ -7,11 +7,11 @@ const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
 const log_1 = __importDefault(require("../utils/log"));
 const http_1 = require("../utils/http");
-const middleware_1 = require("../utils/middleware");
-const variablesRepo_1 = require("../utils/variablesRepo");
 const general_1 = require("../utils/general");
+const variablesRepo_1 = require("../utils/variablesRepo");
+const middleware_1 = require("../utils/middleware");
 const router = express_1.default.Router();
-router.use(middleware_1.checkToken);
+router.use(middleware_1.verifyToken);
 router.get('/Boxes', (req, res) => {
     axios_1.default(http_1.authorize({
         method: 'GET',

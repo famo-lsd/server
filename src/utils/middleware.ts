@@ -2,7 +2,7 @@ import Log from "./log";
 import httpStatus from 'http-status';
 import { refreshToken } from "./http";
 
-export function checkToken(req: any, res: any, next: Function) {
+export function verifyToken(req: any, res: any, next: Function) {
     const token = req.session.token;
 
     if (token) {

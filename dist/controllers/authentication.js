@@ -71,7 +71,7 @@ router.get('/SignOut', (req, res) => {
         }
     });
 });
-router.get('/Session/User', middleware_1.checkToken, (req, res) => {
+router.get('/Session/User', middleware_1.verifyToken, (req, res) => {
     const authUser = req.session.authUser;
     if (authUser) {
         res.send(authUser);

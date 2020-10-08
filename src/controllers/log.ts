@@ -1,10 +1,10 @@
 import express from 'express';
 import Log from '../utils/log';
-import { checkToken } from '../utils/middleware';
+import { verifyToken } from '../utils/middleware';
 
 const router = express.Router();
 
-router.use(checkToken);
+router.use(verifyToken);
 
 router.post('/Promise/Errors', (req: any, res: any) => {
     Log.externalPromiseError(req.query.appName, req.body);

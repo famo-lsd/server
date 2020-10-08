@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const variablesRepo_1 = require("../utils/variablesRepo");
 const middleware_1 = require("../utils/middleware");
 const router = express_1.default.Router();
-router.use(middleware_1.checkToken);
+router.use(middleware_1.verifyToken);
 router.get('/Android', (req, res) => {
     const prop = 'x-requested-with';
     if (req.headers[prop] && req.headers[prop] === variablesRepo_1.ANDROID_APP_ID) {

@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const log_1 = __importDefault(require("../utils/log"));
 const middleware_1 = require("../utils/middleware");
 const router = express_1.default.Router();
-router.use(middleware_1.checkToken);
+router.use(middleware_1.verifyToken);
 router.post('/Promise/Errors', (req, res) => {
     log_1.default.externalPromiseError(req.query.appName, req.body);
     res.send();
