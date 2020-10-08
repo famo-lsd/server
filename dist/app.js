@@ -37,7 +37,7 @@ app.use(express_session_1.default({
     cookie: {
         httpOnly: true,
         maxAge: variablesRepo_1.MONTH_MS,
-        sameSite: 'lax',
+        sameSite: true,
         secure: false
     },
     genid: (req) => {
