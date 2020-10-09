@@ -3,10 +3,12 @@ import express from 'express';
 import httpStatus from 'http-status';
 import Log from '../utils/log';
 import querystring from 'querystring';
+import redis from 'redis';
 import { AUTH_SERVER, CODE_API, SESSION_NAME } from '../utils/variablesRepo';
 import { verifyToken } from '../utils/middleware';
 
-const router = express.Router();
+const router = express.Router(),
+    redisClient = redis.createClient(3035, "localhost");
 
 function getAuthUser(accessToken: string, username: string) {
     return axios({
@@ -35,14 +37,19 @@ function signIn(req: any, res: any, username: string = null, password: string = 
             password: !password ? req.body.password : password
         })
     }).then((tokenRes: any) => {
-        getAuthUser(tokenRes.data.access_token, !username ? req.body.username : username).then((userAuthRes: any) => {
-            req.session.token = tokenRes.data;
-            req.session.authUser = userAuthRes.data;
+        getAuthUser(tokenRes.data.access_token, !username ? req.body.username : username).then((authUserRes: any) => {
+            if (req.headers.origin) {
+                req.session.token = tokenRes.data;
+                req.session.authUser = authUserRes.data;
 
-            req.session.lel = 0;
-            req.session.save();
+                req.session.save();
+            }
+            else {
+                redisClient.set('androidToken', JSON.stringify(tokenRes.data));
+                redisClient.set('androidAuthUser', JSON.stringify(authUserRes.data));
+            }
 
-            res.send(userAuthRes.data);
+            res.send(authUserRes.data);
         }).catch((userErr: any) => {
             Log.promiseError(userErr);
             res.status(userErr.response ? userErr.response.status : httpStatus.INTERNAL_SERVER_ERROR).send();
@@ -62,28 +69,48 @@ router.get('/AutoSignIn', (req: any, res: any) => {
 });
 
 router.get('/SignOut', (req: any, res: any) => {
-    const sessionID = req.sessionID;
+    if (req.headers.origin) {
+        const sessionID = req.sessionID;
 
-    req.sessionStore.destroy(sessionID, (err: any) => {
-        if (err) {
-            Log.error(err.message, err.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
-        }
-        else {
-            res.clearCookie(SESSION_NAME);
-            res.send();
-        }
-    });
+        req.sessionStore.destroy(sessionID, (err: any) => {
+            if (err) {
+                Log.error(err.message, err.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
+                res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
+            }
+            else {
+                res.clearCookie(SESSION_NAME);
+                res.send();
+            }
+        });
+    }
+    else {
+        redisClient.set('androidToken', '');
+        redisClient.set('androidAuthUser', '');
+    }
 });
 
 router.get('/Session/User', verifyToken, (req: any, res: any) => {
-    const authUser = req.session.authUser;
+    if (req.headers.origin) {
+        const authUser = req.session.authUser;
 
-    if (authUser) {
-        res.send(authUser);
+        if (authUser) {
+            res.send(authUser);
+        }
+        else {
+            res.status(httpStatus.NO_CONTENT).send();
+        }
     }
     else {
-        res.status(httpStatus.NO_CONTENT).send();
+        redisClient.get('androidAuthUser', (err, data) => {
+            const authUser = JSON.parse(data);
+
+            if (authUser) {
+                res.send(authUser);
+            }
+            else {
+                res.status(httpStatus.NO_CONTENT).send();
+            }
+        });
     }
 });
 

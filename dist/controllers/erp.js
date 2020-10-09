@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -12,8 +21,8 @@ const variablesRepo_1 = require("../utils/variablesRepo");
 const middleware_1 = require("../utils/middleware");
 const router = express_1.default.Router();
 router.use(middleware_1.verifyToken);
-router.get('/Boxes', (req, res) => {
-    axios_1.default(http_1.authorize({
+router.get('/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Boxes' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -22,9 +31,9 @@ router.get('/Boxes', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.get('/Inventories', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.get('/Inventories', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -33,9 +42,9 @@ router.get('/Inventories', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.get('/Inventories/Products', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.get('/Inventories/Products', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories/Products' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -44,9 +53,9 @@ router.get('/Inventories/Products', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.patch('/Inventories/Products', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.patch('/Inventories/Products', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'PATCH',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories/Products' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -55,9 +64,9 @@ router.patch('/Inventories/Products', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.get('/Pallets', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.get('/Pallets', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Pallets' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -66,9 +75,9 @@ router.get('/Pallets', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.get('/Pallets/Boxes', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.get('/Pallets/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Pallets/Boxes' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -77,9 +86,9 @@ router.get('/Pallets/Boxes', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.put('/Pallets/Boxes', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.put('/Pallets/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'PUT',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Pallets/Boxes' + general_1.createQueryString(req.query),
         headers: {
@@ -92,9 +101,9 @@ router.put('/Pallets/Boxes', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.post('/Pallets/Close', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.post('/Pallets/Close', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'POST',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Pallets/Close' + general_1.createQueryString(req.query),
         headers: {
@@ -107,9 +116,9 @@ router.post('/Pallets/Close', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.post('/Pallets/Reopen', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.post('/Pallets/Reopen', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'POST',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Pallets/Reopen' + general_1.createQueryString(req.query),
         headers: {
@@ -122,9 +131,9 @@ router.post('/Pallets/Reopen', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.get('/Shipments', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.get('/Shipments', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -133,9 +142,9 @@ router.get('/Shipments', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.get('/Shipments/Products', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.get('/Shipments/Products', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments/Products' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -144,9 +153,9 @@ router.get('/Shipments/Products', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.get('/Shipments/Products/Components', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.get('/Shipments/Products/Components', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments/Products/Components' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -155,9 +164,9 @@ router.get('/Shipments/Products/Components', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.get('/Shipments/Boxes', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.get('/Shipments/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments/Boxes' + general_1.createQueryString(req.query)
     }, req.session.token)).then((wsSucc) => {
@@ -166,9 +175,9 @@ router.get('/Shipments/Boxes', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
-router.post('/Shipments/Boxes', (req, res) => {
-    axios_1.default(http_1.authorize({
+}));
+router.post('/Shipments/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'POST',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Shipments/Boxes' + general_1.createQueryString(req.query),
         headers: {
@@ -181,6 +190,6 @@ router.post('/Shipments/Boxes', (req, res) => {
         log_1.default.promiseError(wsErr);
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
-});
+}));
 exports.default = router;
 //# sourceMappingURL=erp.js.map

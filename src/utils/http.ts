@@ -1,14 +1,34 @@
 import axios from 'axios';
 import querystring from 'querystring';
 import { AUTH_SERVER } from '../utils/variablesRepo';
+import redis from 'redis';
+import util from 'util';
 
-export function authorize(reqConfig: any, token: any) {
+const redisClient = redis.createClient(3035, "localhost");
+
+export async function authorize(req: any, reqConfig: any, token: any) {
+
     if (!reqConfig.headers) {
         reqConfig.headers = {};
     }
 
-    reqConfig.headers.Authorization = 'bearer ' + token.access_token;
-    return reqConfig;
+    if (req.headers.origin) {
+        reqConfig.headers.Authorization = 'bearer ' + token.access_token;
+        return reqConfig;
+    }
+    else {
+        const func = util.promisify(redisClient.get).bind(redisClient);
+
+        const value = await func('androidToken');
+
+        reqConfig.headers.Authorization = 'bearer ' + JSON.parse(value).access_token;
+        return reqConfig;
+
+        // redisClient.get('androidToken', (err, data) => {
+        //     reqConfig.headers.Authorization = 'bearer ' + JSON.parse(data).access_token;
+        //     return reqConfig;
+        // });
+    }
 }
 
 export function refreshToken(token: any) {
