@@ -31,12 +31,12 @@ app.use(cors_1.default({
 app.use(express_session_1.default({
     store: new redisStore({
         client: redisClient,
-        ttl: variablesRepo_1.MONTH_MS / 1000
+        ttl: (variablesRepo_1.MONTH_MS / 2) / 1000
     }),
     secret: 'famo_pda_session_sk',
     cookie: {
         httpOnly: true,
-        maxAge: variablesRepo_1.MONTH_MS,
+        maxAge: variablesRepo_1.MONTH_MS / 2,
         sameSite: true,
         secure: false
     },

@@ -1,21 +1,27 @@
-import Log from "./log";
 import httpStatus from 'http-status';
-import redis from 'redis';
-import { refreshToken } from "./http";
+import Log from './log';
+import RedisAuth from './redisAuth';
+import { refreshToken } from './http';
 
-const redisClient = redis.createClient(3035, "localhost");
-
-export function verifyToken(req: any, res: any, next: Function) {
-    if (req.headers.origin) {
-        const token = req.session.token;
+export async function verifyToken(req: any, res: any, next: Function) {
+    try {
+        const token = req.headers.origin ? req.session.token : (await RedisAuth.get()).Token;
 
         if (token) {
             const tokenExpirationDate = new Date(token['.expires']),
                 currentDate = new Date(new Date().toUTCString());
 
             if (currentDate > tokenExpirationDate) {
-                refreshToken(token).then((wsSucc: any) => {
-                    req.session.token = wsSucc.data;
+                refreshToken(token).then(async (wsSucc: any) => {
+                    if (req.headers.origin) {
+                        req.session.token = wsSucc.data;
+                    }
+                    else {
+                        const session = await RedisAuth.get();
+                        session.Token = wsSucc.data;
+
+                        await RedisAuth.set(session);
+                    }
                     next();
                 }).catch((wsErr: any) => {
                     Log.promiseError(wsErr);
@@ -30,31 +36,9 @@ export function verifyToken(req: any, res: any, next: Function) {
             next();
         }
     }
-    else {
-        redisClient.get('androidToken', (err, data) => {
-            const token = JSON.parse(data);
-
-            if (token) {
-                const tokenExpirationDate = new Date(token['.expires']),
-                    currentDate = new Date(new Date().toUTCString());
-
-                if (currentDate > tokenExpirationDate) {
-                    refreshToken(token).then((wsSucc: any) => {
-                        redisClient.set('androidToken', wsSucc.data);
-                        next();
-                    }).catch((wsErr: any) => {
-                        Log.promiseError(wsErr);
-                        res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
-                    });
-                }
-                else {
-                    next();
-                }
-            }
-            else {
-                next();
-            }
-        });
+    catch (err) {
+        Log.error(err.message, err.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
     }
 }
 

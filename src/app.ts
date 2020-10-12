@@ -41,12 +41,12 @@ app.use(cors({
 app.use(session({
     store: new redisStore({
         client: redisClient,
-        ttl: MONTH_MS / 1000
+        ttl: (MONTH_MS / 2) / 1000
     }),
     secret: 'famo_pda_session_sk',
     cookie: {
         httpOnly: true,
-        maxAge: MONTH_MS,
+        maxAge: MONTH_MS / 2,
         sameSite: true,
         secure: false
     },
