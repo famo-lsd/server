@@ -11,6 +11,7 @@ import platform from './controllers/platform';
 import redis from 'redis';
 import session from 'express-session';
 import uuidv4 from 'uuid/v4';
+import warehouse from './controllers/warehouse';
 import { MONTH_MS, SESSION_NAME } from './utils/variablesRepo';
 import { trackRequest } from './utils/middleware';
 
@@ -66,6 +67,7 @@ app.use('/Authentication', authentication);
 app.use('/ERP', erp);
 app.use('/Log', log);
 app.use('/Platform', platform);
+app.use('/Warehouse', warehouse);
 
 // static
 app.use(express.static(__dirname.replace('dist', 'public')));

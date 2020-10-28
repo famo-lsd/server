@@ -16,6 +16,7 @@ const platform_1 = __importDefault(require("./controllers/platform"));
 const redis_1 = __importDefault(require("redis"));
 const express_session_1 = __importDefault(require("express-session"));
 const v4_1 = __importDefault(require("uuid/v4"));
+const warehouse_1 = __importDefault(require("./controllers/warehouse"));
 const variablesRepo_1 = require("./utils/variablesRepo");
 const middleware_1 = require("./utils/middleware");
 const redisStore = connect_redis_1.default(express_session_1.default), redisClient = redis_1.default.createClient(3035, "localhost");
@@ -52,6 +53,7 @@ app.use('/Authentication', authentication_1.default);
 app.use('/ERP', erp_1.default);
 app.use('/Log', log_1.default);
 app.use('/Platform', platform_1.default);
+app.use('/Warehouse', warehouse_1.default);
 app.use(express_1.default.static(__dirname.replace('dist', 'public')));
 app.listen(9070, () => {
     console.log('Start server...');
