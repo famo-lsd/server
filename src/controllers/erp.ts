@@ -34,10 +34,10 @@ router.get('/Inventories', async (req: any, res: any) => {
     });
 });
 
-router.get('/Inventories/Products', async (req: any, res: any) => {
+router.get('/Inventories/Lines', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
-        url: SHOPFLOOR_API + 'api/Navision/Inventories/Products' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Inventories/Lines' + createQueryString(req.query)
     }))).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
@@ -46,10 +46,14 @@ router.get('/Inventories/Products', async (req: any, res: any) => {
     });
 });
 
-router.patch('/Inventories/Products', async (req: any, res: any) => {
+router.patch('/Inventories/Lines', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'PATCH',
-        url: SHOPFLOOR_API + 'api/Navision/Inventories/Products' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Inventories/Lines' + createQueryString(req.query),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(req.body)
     }))).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {

@@ -43,10 +43,10 @@ router.get('/Inventories', (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
 }));
-router.get('/Inventories/Products', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/Inventories/Lines', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     axios_1.default((yield http_1.authorize(req, {
         method: 'GET',
-        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories/Products' + general_1.createQueryString(req.query)
+        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories/Lines' + general_1.createQueryString(req.query)
     }))).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
@@ -54,10 +54,14 @@ router.get('/Inventories/Products', (req, res) => __awaiter(void 0, void 0, void
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
 }));
-router.patch('/Inventories/Products', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/Inventories/Lines', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     axios_1.default((yield http_1.authorize(req, {
         method: 'PATCH',
-        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories/Products' + general_1.createQueryString(req.query)
+        url: variablesRepo_1.SHOPFLOOR_API + 'api/Navision/Inventories/Lines' + general_1.createQueryString(req.query),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(req.body)
     }))).then((wsSucc) => {
         res.send(wsSucc.data);
     }).catch((wsErr) => {
