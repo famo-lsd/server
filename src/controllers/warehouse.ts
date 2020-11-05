@@ -34,4 +34,20 @@ router.get('/Boxes', async (req: any, res: any) => {
     });
 });
 
+router.post('/Boxes', async (req: any, res: any) => {
+    axios((await authorize(req, {
+        method: 'POST',
+        url: SHOPFLOOR_API + 'api/Warehouse/Boxes' + createQueryString(req.query),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(req.body)
+    }))).then((wsSucc: any) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr: any) => {
+        Log.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+});
+
 export default router;

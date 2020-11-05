@@ -43,5 +43,20 @@ router.get('/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
 }));
+router.post('/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default((yield http_1.authorize(req, {
+        method: 'POST',
+        url: variablesRepo_1.SHOPFLOOR_API + 'api/Warehouse/Boxes' + general_1.createQueryString(req.query),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(req.body)
+    }))).then((wsSucc) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr) => {
+        log_1.default.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+}));
 exports.default = router;
 //# sourceMappingURL=warehouse.js.map
