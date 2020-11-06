@@ -22,6 +22,18 @@ router.get('/Bins', async (req: any, res: any) => {
     });
 });
 
+router.get('/Bins/Boxes', async (req: any, res: any) => {
+    axios((await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + createQueryString(req.query)
+    }))).then((wsSucc: any) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr: any) => {
+        Log.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+});
+
 router.get('/Boxes', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
