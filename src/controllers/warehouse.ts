@@ -10,6 +10,18 @@ const router = express.Router();
 
 router.use(verifyToken);
 
+router.get('/Boxes', async (req: any, res: any) => {
+    axios((await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Warehouse/Boxes' + createQueryString(req.query)
+    }))).then((wsSucc: any) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr: any) => {
+        Log.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+});
+
 router.get('/Bins', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
@@ -34,10 +46,14 @@ router.get('/Bins/Boxes', async (req: any, res: any) => {
     });
 });
 
-router.get('/Boxes', async (req: any, res: any) => {
+router.post('/Bins/Boxes', async (req: any, res: any) => {
     axios((await authorize(req, {
-        method: 'GET',
-        url: SHOPFLOOR_API + 'api/Warehouse/Boxes' + createQueryString(req.query)
+        method: 'POST',
+        url: SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + createQueryString(req.query),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(req.body)
     }))).then((wsSucc: any) => {
         res.send(wsSucc.data);
     }).catch((wsErr: any) => {
@@ -46,10 +62,10 @@ router.get('/Boxes', async (req: any, res: any) => {
     });
 });
 
-router.post('/Boxes', async (req: any, res: any) => {
+router.patch('/Bins/Boxes', async (req: any, res: any) => {
     axios((await authorize(req, {
-        method: 'POST',
-        url: SHOPFLOOR_API + 'api/Warehouse/Boxes' + createQueryString(req.query),
+        method: 'PATCH',
+        url: SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
