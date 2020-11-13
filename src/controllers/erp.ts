@@ -10,18 +10,6 @@ const router = express.Router();
 
 router.use(verifyToken);
 
-router.get('/Boxes', async (req: any, res: any) => {
-    axios((await authorize(req, {
-        method: 'GET',
-        url: SHOPFLOOR_API + 'api/Navision/Boxes' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
-    });
-});
-
 router.get('/Inventories', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
@@ -62,6 +50,18 @@ router.patch('/Inventories/Lines', async (req: any, res: any) => {
     });
 });
 
+router.get('/Boxes', async (req: any, res: any) => {
+    axios((await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Navision/Boxes' + createQueryString(req.query)
+    }))).then((wsSucc: any) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr: any) => {
+        Log.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+});
+
 router.get('/Pallets', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
@@ -74,22 +74,10 @@ router.get('/Pallets', async (req: any, res: any) => {
     });
 });
 
-router.get('/Pallets/Boxes', async (req: any, res: any) => {
-    axios((await authorize(req, {
-        method: 'GET',
-        url: SHOPFLOOR_API + 'api/Navision/Pallets/Boxes' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
-    });
-});
-
-router.put('/Pallets/Boxes', async (req: any, res: any) => {
+router.put('/Pallets', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'PUT',
-        url: SHOPFLOOR_API + 'api/Navision/Pallets/Boxes' + createQueryString(req.query),
+        url: SHOPFLOOR_API + 'api/Navision/Pallets' + createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
