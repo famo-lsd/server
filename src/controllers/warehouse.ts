@@ -94,4 +94,16 @@ router.delete('/Bins/Boxes', async (req: any, res: any) => {
     });
 });
 
+router.get('/Bins/Orders', async (req: any, res: any) => {
+    axios((await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Warehouse/Bins/Orders' + createQueryString(req.query)
+    }))).then((wsSucc: any) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr: any) => {
+        Log.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+});
+
 export default router;

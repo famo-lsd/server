@@ -99,5 +99,16 @@ router.delete('/Bins/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(wsErr.response.status).send(wsErr.response.data);
     });
 }));
+router.get('/Bins/Orders', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    axios_1.default((yield http_1.authorize(req, {
+        method: 'GET',
+        url: variablesRepo_1.SHOPFLOOR_API + 'api/Warehouse/Bins/Orders' + general_1.createQueryString(req.query)
+    }))).then((wsSucc) => {
+        res.send(wsSucc.data);
+    }).catch((wsErr) => {
+        log_1.default.promiseError(wsErr);
+        res.status(wsErr.response.status).send(wsErr.response.data);
+    });
+}));
 exports.default = router;
 //# sourceMappingURL=warehouse.js.map
