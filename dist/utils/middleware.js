@@ -24,18 +24,18 @@ function verifyToken(req, res, next) {
             if (token) {
                 const tokenExpirationDate = new Date(token['.expires']), currentDate = new Date(new Date().toUTCString());
                 if (currentDate > tokenExpirationDate) {
-                    http_1.refreshToken(token).then((wsSucc) => __awaiter(this, void 0, void 0, function* () {
+                    http_1.refreshToken(token).then((result) => __awaiter(this, void 0, void 0, function* () {
                         if (req.headers.origin) {
-                            req.session.token = wsSucc.data;
+                            req.session.token = result.data;
                         }
                         else {
                             const session = yield redisAuth_1.default.get();
-                            session.Token = wsSucc.data;
+                            session.Token = result.data;
                             yield redisAuth_1.default.set(session);
                         }
                         next();
-                    })).catch((wsErr) => {
-                        log_1.default.promiseError(wsErr);
+                    })).catch((error) => {
+                        log_1.default.promiseError(error);
                         res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send();
                     });
                 }
@@ -47,8 +47,8 @@ function verifyToken(req, res, next) {
                 next();
             }
         }
-        catch (err) {
-            log_1.default.error(err.message, err.stack, { method: req.method, url: req.path, statusCode: http_status_1.default.INTERNAL_SERVER_ERROR });
+        catch (error) {
+            log_1.default.error(error.message, error.stack, { method: req.method, url: req.path, statusCode: http_status_1.default.INTERNAL_SERVER_ERROR });
             res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send();
         }
     });

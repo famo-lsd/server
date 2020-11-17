@@ -12,19 +12,19 @@ export async function verifyToken(req: any, res: any, next: Function) {
                 currentDate = new Date(new Date().toUTCString());
 
             if (currentDate > tokenExpirationDate) {
-                refreshToken(token).then(async (wsSucc: any) => {
+                refreshToken(token).then(async (result: any) => {
                     if (req.headers.origin) {
-                        req.session.token = wsSucc.data;
+                        req.session.token = result.data;
                     }
                     else {
                         const session = await RedisAuth.get();
-                        session.Token = wsSucc.data;
+                        session.Token = result.data;
 
                         await RedisAuth.set(session);
                     }
                     next();
-                }).catch((wsErr: any) => {
-                    Log.promiseError(wsErr);
+                }).catch((error: any) => {
+                    Log.promiseError(error);
                     res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
                 });
             }
@@ -36,8 +36,8 @@ export async function verifyToken(req: any, res: any, next: Function) {
             next();
         }
     }
-    catch (err) {
-        Log.error(err.message, err.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
+    catch (error) {
+        Log.error(error.message, error.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
     }
 }

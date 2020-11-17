@@ -25,33 +25,33 @@ router.get('/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     axios_1.default((yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Warehouse/Boxes' + general_1.createQueryString(req.query)
-    }))).then((wsSucc) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr) => {
-        log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result) => {
+        res.send(result.data);
+    }).catch((error) => {
+        log_1.default.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 }));
 router.get('/Bins', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     axios_1.default((yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Warehouse/Bins' + general_1.createQueryString(req.query)
-    }))).then((wsSucc) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr) => {
-        log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result) => {
+        res.send(result.data);
+    }).catch((error) => {
+        log_1.default.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 }));
 router.get('/Bins/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     axios_1.default((yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + general_1.createQueryString(req.query)
-    }))).then((wsSucc) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr) => {
-        log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result) => {
+        res.send(result.data);
+    }).catch((error) => {
+        log_1.default.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 }));
 router.post('/Bins/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -62,11 +62,11 @@ router.post('/Bins/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, funct
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr) => {
-        log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result) => {
+        res.send(result.data);
+    }).catch((error) => {
+        log_1.default.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 }));
 router.patch('/Bins/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -77,11 +77,11 @@ router.patch('/Bins/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, func
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr) => {
-        log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result) => {
+        res.send(result.data);
+    }).catch((error) => {
+        log_1.default.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 }));
 router.delete('/Bins/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -92,22 +92,22 @@ router.delete('/Bins/Boxes', (req, res) => __awaiter(void 0, void 0, void 0, fun
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr) => {
-        log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result) => {
+        res.send(result.data);
+    }).catch((error) => {
+        log_1.default.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 }));
 router.get('/Bins/Orders', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     axios_1.default((yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Warehouse/Bins/Orders' + general_1.createQueryString(req.query)
-    }))).then((wsSucc) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr) => {
-        log_1.default.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result) => {
+        res.send(result.data);
+    }).catch((error) => {
+        log_1.default.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 }));
 exports.default = router;

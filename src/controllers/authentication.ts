@@ -35,32 +35,32 @@ function signIn(req: any, res: any, username: string = null, password: string = 
             username: !username ? req.body.username : username,
             password: !password ? req.body.password : password
         })
-    }).then((tokenRes: any) => {
-        getAuthUser(tokenRes.data.access_token, !username ? req.body.username : username).then(async (authUserRes: any) => {
+    }).then((tokenResult: any) => {
+        getAuthUser(tokenResult.data.access_token, !username ? req.body.username : username).then(async (authUserResult: any) => {
             try {
                 if (req.headers.origin) {
-                    req.session.token = tokenRes.data;
-                    req.session.authUser = authUserRes.data;
+                    req.session.token = tokenResult.data;
+                    req.session.authUser = authUserResult.data;
 
                     req.session.save();
                 }
                 else {
-                    await RedisAuth.set({ Token: tokenRes.data, AuthUser: authUserRes.data });
+                    await RedisAuth.set({ Token: tokenResult.data, AuthUser: authUserResult.data });
                 }
 
-                res.send(authUserRes.data);
+                res.send(authUserResult.data);
             }
-            catch (err) {
-                Log.error(err.message, err.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
+            catch (error) {
+                Log.error(error.message, error.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
                 res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
             }
-        }).catch((authUserErr: any) => {
-            Log.promiseError(authUserErr);
-            res.status(authUserErr.response ? authUserErr.response.status : httpStatus.INTERNAL_SERVER_ERROR).send();
+        }).catch((authUserError: any) => {
+            Log.promiseError(authUserError);
+            res.status(authUserError.response ? authUserError.response.status : httpStatus.INTERNAL_SERVER_ERROR).send();
         });
-    }).catch((tokenErr: any) => {
-        Log.promiseError(tokenErr);
-        res.status(tokenErr.response ? tokenErr.response.status : httpStatus.INTERNAL_SERVER_ERROR).send();
+    }).catch((tokenError: any) => {
+        Log.promiseError(tokenError);
+        res.status(tokenError.response ? tokenError.response.status : httpStatus.INTERNAL_SERVER_ERROR).send();
     });
 }
 
@@ -92,8 +92,8 @@ router.get('/SignOut', async (req: any, res: any) => {
             await RedisAuth.del();
         }
     }
-    catch (err) {
-        Log.error(err.message, err.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
+    catch (error) {
+        Log.error(error.message, error.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
     }
 });

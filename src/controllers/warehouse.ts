@@ -14,11 +14,11 @@ router.get('/Boxes', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Warehouse/Boxes' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -26,11 +26,11 @@ router.get('/Bins', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -38,11 +38,11 @@ router.get('/Bins/Boxes', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -54,11 +54,11 @@ router.post('/Bins/Boxes', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -70,11 +70,11 @@ router.patch('/Bins/Boxes', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -86,11 +86,11 @@ router.delete('/Bins/Boxes', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -98,11 +98,11 @@ router.get('/Bins/Orders', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins/Orders' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 

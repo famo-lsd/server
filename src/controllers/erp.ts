@@ -14,11 +14,11 @@ router.get('/Inventories', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Navision/Inventories' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -26,11 +26,11 @@ router.get('/Inventories/Lines', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Navision/Inventories/Lines' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -42,11 +42,11 @@ router.patch('/Inventories/Lines', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -54,11 +54,11 @@ router.get('/Boxes', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Navision/Boxes' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -66,11 +66,11 @@ router.get('/Pallets', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Navision/Pallets' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -82,11 +82,11 @@ router.put('/Pallets', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc: any) => {
-        res.send({ palletID: wsSucc.data });
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send({ palletID: result.data });
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -98,11 +98,11 @@ router.post('/Pallets/Close', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -114,11 +114,11 @@ router.post('/Pallets/Reopen', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -126,11 +126,11 @@ router.get('/Shipments', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Navision/Shipments' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -138,11 +138,11 @@ router.get('/Shipments/Products', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Navision/Shipments/Products' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -150,11 +150,11 @@ router.get('/Shipments/Products/Components', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Navision/Shipments/Products/Components' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -162,11 +162,11 @@ router.get('/Shipments/Boxes', async (req: any, res: any) => {
     axios((await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Navision/Shipments/Boxes' + createQueryString(req.query)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
@@ -178,11 +178,11 @@ router.post('/Shipments/Boxes', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((wsSucc: any) => {
-        res.send(wsSucc.data);
-    }).catch((wsErr: any) => {
-        Log.promiseError(wsErr);
-        res.status(wsErr.response.status).send(wsErr.response.data);
+    }))).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
     });
 });
 
