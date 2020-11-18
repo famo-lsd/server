@@ -10,6 +10,7 @@ import log from './controllers/log';
 import platform from './controllers/platform';
 import redis from 'redis';
 import session from 'express-session';
+import shipments from './controllers/shipments';
 import uuidv4 from 'uuid/v4';
 import warehouse from './controllers/warehouse';
 import { MONTH_MS, SESSION_NAME } from './utils/variablesRepo';
@@ -67,6 +68,7 @@ app.use('/Authentication', authentication);
 app.use('/ERP', erp);
 app.use('/Log', log);
 app.use('/Platform', platform);
+app.use('/Shipments', shipments);
 app.use('/Warehouse', warehouse);
 
 // static

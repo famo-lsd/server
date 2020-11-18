@@ -15,6 +15,7 @@ const log_1 = __importDefault(require("./controllers/log"));
 const platform_1 = __importDefault(require("./controllers/platform"));
 const redis_1 = __importDefault(require("redis"));
 const express_session_1 = __importDefault(require("express-session"));
+const shipments_1 = __importDefault(require("./controllers/shipments"));
 const v4_1 = __importDefault(require("uuid/v4"));
 const warehouse_1 = __importDefault(require("./controllers/warehouse"));
 const variablesRepo_1 = require("./utils/variablesRepo");
@@ -53,6 +54,7 @@ app.use('/Authentication', authentication_1.default);
 app.use('/ERP', erp_1.default);
 app.use('/Log', log_1.default);
 app.use('/Platform', platform_1.default);
+app.use('/Shipments', shipments_1.default);
 app.use('/Warehouse', warehouse_1.default);
 app.use(express_1.default.static(__dirname.replace('dist', 'public')));
 app.listen(9070, () => {
