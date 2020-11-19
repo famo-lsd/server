@@ -11,10 +11,10 @@ const router = express.Router();
 router.use(verifyToken);
 
 router.get('/Boxes', async (req: any, res: any) => {
-    axios((await authorize(req, {
+    axios(await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Warehouse/Boxes' + createQueryString(req.query)
-    }))).then((result: any) => {
+    })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
         Log.promiseError(error);
@@ -23,10 +23,10 @@ router.get('/Boxes', async (req: any, res: any) => {
 });
 
 router.get('/Bins', async (req: any, res: any) => {
-    axios((await authorize(req, {
+    axios(await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins' + createQueryString(req.query)
-    }))).then((result: any) => {
+    })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
         Log.promiseError(error);
@@ -35,10 +35,10 @@ router.get('/Bins', async (req: any, res: any) => {
 });
 
 router.get('/Bins/Boxes', async (req: any, res: any) => {
-    axios((await authorize(req, {
+    axios(await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + createQueryString(req.query)
-    }))).then((result: any) => {
+    })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
         Log.promiseError(error);
@@ -47,14 +47,14 @@ router.get('/Bins/Boxes', async (req: any, res: any) => {
 });
 
 router.post('/Bins/Boxes', async (req: any, res: any) => {
-    axios((await authorize(req, {
+    axios(await authorize(req, {
         method: 'POST',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((result: any) => {
+    })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
         Log.promiseError(error);
@@ -63,14 +63,14 @@ router.post('/Bins/Boxes', async (req: any, res: any) => {
 });
 
 router.patch('/Bins/Boxes', async (req: any, res: any) => {
-    axios((await authorize(req, {
+    axios(await authorize(req, {
         method: 'PATCH',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((result: any) => {
+    })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
         Log.promiseError(error);
@@ -79,14 +79,14 @@ router.patch('/Bins/Boxes', async (req: any, res: any) => {
 });
 
 router.delete('/Bins/Boxes', async (req: any, res: any) => {
-    axios((await authorize(req, {
+    axios(await authorize(req, {
         method: 'DELETE',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins/Boxes' + createQueryString(req.query),
         headers: {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
-    }))).then((result: any) => {
+    })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
         Log.promiseError(error);
@@ -95,10 +95,10 @@ router.delete('/Bins/Boxes', async (req: any, res: any) => {
 });
 
 router.get('/Bins/Orders', async (req: any, res: any) => {
-    axios((await authorize(req, {
+    axios(await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Warehouse/Bins/Orders' + createQueryString(req.query)
-    }))).then((result: any) => {
+    })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
         Log.promiseError(error);

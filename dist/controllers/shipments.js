@@ -22,10 +22,10 @@ const middleware_1 = require("../utils/middleware");
 const router = express_1.default.Router();
 router.use(middleware_1.verifyToken);
 router.get('/Gates', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    axios_1.default((yield http_1.authorize(req, {
+    axios_1.default(yield http_1.authorize(req, {
         method: 'GET',
         url: variablesRepo_1.SHOPFLOOR_API + 'api/Shipments/Gates' + general_1.createQueryString(req.query)
-    }))).then((result) => {
+    })).then((result) => {
         res.send(result.data);
     }).catch((error) => {
         log_1.default.promiseError(error);

@@ -11,10 +11,10 @@ const router = express.Router();
 router.use(verifyToken);
 
 router.get('/Gates', async (req: any, res: any) => {
-    axios((await authorize(req, {
+    axios(await authorize(req, {
         method: 'GET',
         url: SHOPFLOOR_API + 'api/Shipments/Gates' + createQueryString(req.query)
-    }))).then((result: any) => {
+    })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
         Log.promiseError(error);
