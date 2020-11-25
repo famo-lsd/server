@@ -17,4 +17,4 @@ export function createQueryString(json: any) {
     }
 
     return qs;
-};
+}

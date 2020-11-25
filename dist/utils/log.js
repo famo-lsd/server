@@ -1,10 +1,21 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const moment_1 = __importDefault(require("moment"));
+const redisAuth_1 = __importDefault(require("./redisAuth"));
+const http_1 = require("./http");
 const variablesRepo_1 = require("./variablesRepo");
 ;
 class Log {
@@ -44,21 +55,23 @@ class Log {
         });
     }
     static tracking(req) {
-        const trackingFolder = variablesRepo_1.LOG_FOLDER + 'tracking/', logFile = trackingFolder + moment_1.default().format('DD_MM_YYYY') + '.log', message = moment_1.default().format(variablesRepo_1.LOG_DATETIME_FORMAT) + ' '
-            + req.ip.padEnd(25) + ' '
-            + req.hostname.padEnd(20) + ' '
-            + req.httpVersion.padEnd(5) + ' '
-            + req.method.padEnd(5) + ' '
-            + (req.session.authUser ? ' ' + req.session.authUser.Username : '').padEnd(32) + ' '
-            + req.url
-            + '\n';
-        if (!fs_1.default.existsSync(trackingFolder)) {
-            fs_1.default.mkdirSync(trackingFolder, { recursive: true });
-        }
-        fs_1.default.appendFile(logFile, message, (err) => {
-            if (err) {
-                console.log('[' + moment_1.default().format(variablesRepo_1.LOG_DATETIME_FORMAT) + '] ' + err + '\n\n');
+        return __awaiter(this, void 0, void 0, function* () {
+            const session = (yield redisAuth_1.default.get(http_1.getNoken(req))), trackingFolder = variablesRepo_1.LOG_FOLDER + 'tracking/', logFile = trackingFolder + moment_1.default().format('DD_MM_YYYY') + '.log', message = moment_1.default().format(variablesRepo_1.LOG_DATETIME_FORMAT) + ' '
+                + req.ip.padEnd(25) + ' '
+                + req.hostname.padEnd(20) + ' '
+                + req.httpVersion.padEnd(5) + ' '
+                + req.method.padEnd(5) + ' '
+                + (session.Data.AuthUser ? ' ' + session.Data.AuthUser.Username : '').padEnd(32) + ' '
+                + req.url
+                + '\n';
+            if (!fs_1.default.existsSync(trackingFolder)) {
+                fs_1.default.mkdirSync(trackingFolder, { recursive: true });
             }
+            fs_1.default.appendFile(logFile, message, (err) => {
+                if (err) {
+                    console.log('[' + moment_1.default().format(variablesRepo_1.LOG_DATETIME_FORMAT) + '] ' + err + '\n\n');
+                }
+            });
         });
     }
 }

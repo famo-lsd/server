@@ -14,22 +14,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const redis_1 = __importDefault(require("redis"));
 const util_1 = __importDefault(require("util"));
-const client = redis_1.default.createClient(3035, "localhost"), key = 'authentication', namespace = 'android:';
+const client = redis_1.default.createClient(3035, "localhost"), namespace = 'node_session:';
 class RedisAuth {
-    static get() {
+    static get(key) {
         return __awaiter(this, void 0, void 0, function* () {
             const value = yield (util_1.default.promisify(client.get).bind(client))(namespace + key);
-            return value ? JSON.parse(value) : { Token: null, AuthUser: null };
+            return value ? JSON.parse(value) : { Data: { AuthUser: null, Token: null }, ExpirationDate: new Date(-8640000000000000).toUTCString() };
         });
     }
-    static set(value) {
+    static set(key, value) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield (util_1.default.promisify(client.set).bind(client))(namespace + key, JSON.stringify(value));
         });
     }
-    static del() {
+    static del(key) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield (util_1.default.promisify(client.del).bind(client))(namespace + key);
+        });
+    }
+    static cleanKeys() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const keys = yield (util_1.default.promisify(client.keys).bind(client))('*'), currentUtcDate = new Date(new Date().toUTCString());
+            keys.forEach((x) => __awaiter(this, void 0, void 0, function* () {
+                if (currentUtcDate > new Date((yield this.get(x)).ExpirationDate)) {
+                    yield this.del(x);
+                }
+            }));
         });
     }
 }

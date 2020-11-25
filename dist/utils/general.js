@@ -19,5 +19,4 @@ function createQueryString(json) {
     return qs;
 }
 exports.createQueryString = createQueryString;
-;
 //# sourceMappingURL=general.js.map

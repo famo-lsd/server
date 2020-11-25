@@ -12,39 +12,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trackRequest = exports.verifyToken = void 0;
+exports.trackRequest = exports.checkToken = void 0;
+const lodash_1 = __importDefault(require("lodash"));
 const http_status_1 = __importDefault(require("http-status"));
 const log_1 = __importDefault(require("./log"));
 const redisAuth_1 = __importDefault(require("./redisAuth"));
 const http_1 = require("./http");
-function verifyToken(req, res, next) {
+const variablesRepo_1 = require("./variablesRepo");
+function checkToken(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const token = req.headers.origin ? req.session.token : (yield redisAuth_1.default.get()).Token;
-            if (token) {
-                const tokenExpirationDate = new Date(token['.expires']), currentDate = new Date(new Date().toUTCString());
-                if (currentDate > tokenExpirationDate) {
-                    http_1.refreshToken(token).then((result) => __awaiter(this, void 0, void 0, function* () {
-                        if (req.headers.origin) {
-                            req.session.token = result.data;
+            if (req.headers.authorization) {
+                const noken = http_1.getNoken(req), session = (yield redisAuth_1.default.get(noken)), sessionExpirationDate = new Date(session.ExpirationDate), currentUtcDate = new Date(new Date().toUTCString());
+                if (sessionExpirationDate > currentUtcDate) {
+                    const token = session.Data.Token;
+                    if (token) {
+                        const newSessionExpirationDate = lodash_1.default.clone(sessionExpirationDate), tokenExpirationDate = new Date(token['.expires']);
+                        newSessionExpirationDate.setDate(currentUtcDate.getDate() + (variablesRepo_1.MONTH_DAYS / 2));
+                        session.ExpirationDate = newSessionExpirationDate.toUTCString();
+                        if (currentUtcDate > tokenExpirationDate) {
+                            http_1.refreshToken(token).then((result) => __awaiter(this, void 0, void 0, function* () {
+                                session.Data.Token = result.data;
+                                yield redisAuth_1.default.set(noken, session);
+                                next();
+                            })).catch((error) => {
+                                log_1.default.promiseError(error);
+                                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send();
+                            });
                         }
                         else {
-                            const session = yield redisAuth_1.default.get();
-                            session.Token = result.data;
-                            yield redisAuth_1.default.set(session);
+                            yield redisAuth_1.default.set(noken, session);
+                            next();
                         }
-                        next();
-                    })).catch((error) => {
-                        log_1.default.promiseError(error);
-                        res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send();
-                    });
+                    }
+                    else {
+                        res.status(http_status_1.default.UNAUTHORIZED).send();
+                    }
                 }
                 else {
-                    next();
+                    res.status(http_status_1.default.UNAUTHORIZED).send();
                 }
             }
             else {
-                next();
+                res.status(http_status_1.default.UNAUTHORIZED).send();
             }
         }
         catch (error) {
@@ -53,7 +63,7 @@ function verifyToken(req, res, next) {
         }
     });
 }
-exports.verifyToken = verifyToken;
+exports.checkToken = checkToken;
 function trackRequest(req, res, next) {
     log_1.default.tracking(req);
     next();

@@ -1,5 +1,7 @@
 import fs from 'fs';
 import moment from 'moment';
+import RedisAuth from './redisAuth';
+import { getNoken } from './http';
 import { LOG_DATETIME_FORMAT, LOG_FOLDER } from './variablesRepo';
 
 interface HttpLogData {
@@ -59,15 +61,16 @@ export default class Log {
         });
     }
 
-    public static tracking(req: any) {
-        const trackingFolder = LOG_FOLDER + 'tracking/',
+    public static async tracking(req: any) {
+        const session = (await RedisAuth.get(getNoken(req))),
+            trackingFolder = LOG_FOLDER + 'tracking/',
             logFile = trackingFolder + moment().format('DD_MM_YYYY') + '.log',
             message = moment().format(LOG_DATETIME_FORMAT) + ' '
                 + req.ip.padEnd(25) + ' '
                 + req.hostname.padEnd(20) + ' '
                 + req.httpVersion.padEnd(5) + ' '
                 + req.method.padEnd(5) + ' '
-                + (req.session.authUser ? ' ' + req.session.authUser.Username : '').padEnd(32) + ' '
+                + (session.Data.AuthUser ? ' ' + session.Data.AuthUser.Username : '').padEnd(32) + ' '
                 + req.url
                 + '\n';
 

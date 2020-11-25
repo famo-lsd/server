@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,22 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const authentication_1 = __importDefault(require("./controllers/authentication"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const compression_1 = __importDefault(require("compression"));
-const connect_redis_1 = __importDefault(require("connect-redis"));
 const cors_1 = __importDefault(require("cors"));
 const erp_1 = __importDefault(require("./controllers/erp"));
 const express_1 = __importDefault(require("express"));
 const helmet_1 = __importDefault(require("helmet"));
 const log_1 = __importDefault(require("./controllers/log"));
 const platform_1 = __importDefault(require("./controllers/platform"));
-const redis_1 = __importDefault(require("redis"));
-const express_session_1 = __importDefault(require("express-session"));
+const redisAuth_1 = __importDefault(require("./utils/redisAuth"));
 const shipments_1 = __importDefault(require("./controllers/shipments"));
 const tv_1 = __importDefault(require("./controllers/tv"));
-const v4_1 = __importDefault(require("uuid/v4"));
 const warehouse_1 = __importDefault(require("./controllers/warehouse"));
-const variablesRepo_1 = require("./utils/variablesRepo");
 const middleware_1 = require("./utils/middleware");
-const redisStore = connect_redis_1.default(express_session_1.default), redisClient = redis_1.default.createClient(3035, "localhost");
 const app = express_1.default();
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
@@ -30,25 +34,6 @@ app.use(helmet_1.default());
 app.use(cors_1.default({
     origin: true,
     credentials: true
-}));
-app.use(express_session_1.default({
-    store: new redisStore({
-        client: redisClient,
-        ttl: (variablesRepo_1.MONTH_MS / 2) / 1000
-    }),
-    secret: 'famo_pda_session_sk',
-    cookie: {
-        httpOnly: true,
-        maxAge: variablesRepo_1.MONTH_MS / 2,
-        sameSite: true,
-        secure: false
-    },
-    genid: (req) => {
-        return v4_1.default();
-    },
-    name: variablesRepo_1.SESSION_NAME,
-    saveUninitialized: true,
-    resave: true
 }));
 app.use(middleware_1.trackRequest);
 app.use('/Authentication', authentication_1.default);
@@ -62,4 +47,7 @@ app.use(express_1.default.static(__dirname.replace('dist', 'public')));
 app.listen(9070, () => {
     console.log('Start server...');
 });
+setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield redisAuth_1.default.cleanKeys();
+}), 86400000);
 //# sourceMappingURL=app.js.map

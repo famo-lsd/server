@@ -20,7 +20,7 @@ const general_1 = require("../utils/general");
 const variablesRepo_1 = require("../utils/variablesRepo");
 const middleware_1 = require("../utils/middleware");
 const router = express_1.default.Router();
-router.use(middleware_1.verifyToken);
+router.use(middleware_1.checkToken);
 router.get('/Gates', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     axios_1.default(yield http_1.authorize(req, {
         method: 'GET',

@@ -12,21 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.refreshToken = exports.authorize = void 0;
+exports.refreshToken = exports.getNoken = exports.authorize = void 0;
 const axios_1 = __importDefault(require("axios"));
 const querystring_1 = __importDefault(require("querystring"));
 const redisAuth_1 = __importDefault(require("./redisAuth"));
 const variablesRepo_1 = require("../utils/variablesRepo");
-function authorize(req, reqOptions) {
+function authorize(req, config) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!reqOptions.headers) {
-            reqOptions.headers = {};
+        if (!config.headers) {
+            config.headers = {};
         }
-        reqOptions.headers.Authorization = 'bearer ' + (req.headers.origin ? req.session.token : (yield redisAuth_1.default.get()).Token).access_token;
-        return reqOptions;
+        config.headers.Authorization = 'bearer ' + (yield redisAuth_1.default.get(getNoken(req))).Data.Token.access_token;
+        return config;
     });
 }
 exports.authorize = authorize;
+function getNoken(req) {
+    return req.headers.authorization ? req.headers.authorization.replace(variablesRepo_1.NODE_TOKEN_PREFIX + ' ', '') : '';
+}
+exports.getNoken = getNoken;
 function refreshToken(token) {
     return axios_1.default({
         method: 'POST',

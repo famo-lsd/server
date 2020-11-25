@@ -18,8 +18,10 @@ const http_status_1 = __importDefault(require("http-status"));
 const log_1 = __importDefault(require("../utils/log"));
 const querystring_1 = __importDefault(require("querystring"));
 const redisAuth_1 = __importDefault(require("../utils/redisAuth"));
+const v4_1 = __importDefault(require("uuid/v4"));
 const variablesRepo_1 = require("../utils/variablesRepo");
 const middleware_1 = require("../utils/middleware");
+const http_1 = require("../utils/http");
 const router = express_1.default.Router();
 function getAuthUser(accessToken, username) {
     return axios_1.default({
@@ -49,15 +51,10 @@ function signIn(req, res, username = null, password = null) {
     }).then((tokenResult) => {
         getAuthUser(tokenResult.data.access_token, !username ? req.body.username : username).then((authUserResult) => __awaiter(this, void 0, void 0, function* () {
             try {
-                if (req.headers.origin) {
-                    req.session.token = tokenResult.data;
-                    req.session.authUser = authUserResult.data;
-                    req.session.save();
-                }
-                else {
-                    yield redisAuth_1.default.set({ Token: tokenResult.data, AuthUser: authUserResult.data });
-                }
-                res.send(authUserResult.data);
+                const uuid = v4_1.default(), expirationDate = new Date();
+                expirationDate.setDate(expirationDate.getDate() + (variablesRepo_1.MONTH_DAYS / 2));
+                yield redisAuth_1.default.set(uuid, { Data: { AuthUser: authUserResult.data, Token: tokenResult.data }, ExpirationDate: expirationDate.toUTCString() });
+                res.send({ AuthUser: authUserResult.data, Token: uuid });
             }
             catch (error) {
                 log_1.default.error(error.message, error.stack, { method: req.method, url: req.path, statusCode: http_status_1.default.INTERNAL_SERVER_ERROR });
@@ -78,33 +75,18 @@ router.post('/SignIn', (req, res) => {
 router.get('/AutoSignIn', (req, res) => {
     signIn(req, res, 'nodejs', 'nodejs');
 });
-router.get('/SignOut', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/SignOut', middleware_1.checkToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (req.headers.origin) {
-            const sessionID = req.sessionID;
-            req.sessionStore.destroy(sessionID, (err) => {
-                if (err) {
-                    log_1.default.error(err.message, err.stack, { method: req.method, url: req.path, statusCode: http_status_1.default.INTERNAL_SERVER_ERROR });
-                    res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send();
-                }
-                else {
-                    res.clearCookie(variablesRepo_1.SESSION_NAME);
-                    res.send();
-                }
-            });
-        }
-        else {
-            yield redisAuth_1.default.del();
-        }
+        yield redisAuth_1.default.del(http_1.getNoken(req));
     }
     catch (error) {
         log_1.default.error(error.message, error.stack, { method: req.method, url: req.path, statusCode: http_status_1.default.INTERNAL_SERVER_ERROR });
         res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send();
     }
 }));
-router.get('/Session/User', middleware_1.verifyToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/Session/User', middleware_1.checkToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const authUser = req.headers.origin ? req.session.authUser : (yield redisAuth_1.default.get()).AuthUser;
+        const authUser = (yield redisAuth_1.default.get(http_1.getNoken(req))).Data.AuthUser;
         if (authUser) {
             res.send(authUser);
         }

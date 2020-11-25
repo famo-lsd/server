@@ -4,11 +4,11 @@ import Log from '../utils/log';
 import { authorize } from '../utils/http';
 import { createQueryString } from '../utils/general';
 import { SHOPFLOOR_API } from '../utils/variablesRepo';
-import { verifyToken } from '../utils/middleware';
+import { checkToken } from '../utils/middleware';
 
 const router = express.Router();
 
-router.use(verifyToken);
+router.use(checkToken);
 
 router.get('/Messages', async (req: any, res: any) => {
     axios(await authorize(req, {

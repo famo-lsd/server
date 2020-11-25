@@ -1,39 +1,54 @@
+import _ from 'lodash';
 import httpStatus from 'http-status';
 import Log from './log';
 import RedisAuth from './redisAuth';
-import { refreshToken } from './http';
+import { getNoken, refreshToken } from './http';
+import { MONTH_DAYS } from './variablesRepo';
 
-export async function verifyToken(req: any, res: any, next: Function) {
+export async function checkToken(req: any, res: any, next: Function) {
     try {
-        const token = req.headers.origin ? req.session.token : (await RedisAuth.get()).Token;
+        if (req.headers.authorization) {
+            const noken = getNoken(req),
+                session = (await RedisAuth.get(noken)),
+                sessionExpirationDate = new Date(session.ExpirationDate),
+                currentUtcDate = new Date(new Date().toUTCString());
 
-        if (token) {
-            const tokenExpirationDate = new Date(token['.expires']),
-                currentDate = new Date(new Date().toUTCString());
+            if (sessionExpirationDate > currentUtcDate) {
+                const token = session.Data.Token;
 
-            if (currentDate > tokenExpirationDate) {
-                refreshToken(token).then(async (result: any) => {
-                    if (req.headers.origin) {
-                        req.session.token = result.data;
+                if (token) {
+                    const newSessionExpirationDate = _.clone(sessionExpirationDate),
+                        tokenExpirationDate = new Date(token['.expires']);
+
+                    newSessionExpirationDate.setDate(currentUtcDate.getDate() + (MONTH_DAYS / 2));
+                    session.ExpirationDate = newSessionExpirationDate.toUTCString();
+
+                    if (currentUtcDate > tokenExpirationDate) {
+                        refreshToken(token).then(async (result: any) => {
+                            session.Data.Token = result.data;
+
+                            await RedisAuth.set(noken, session);
+                            next();
+                        }).catch((error: any) => {
+                            Log.promiseError(error);
+                            res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
+                        });
                     }
                     else {
-                        const session = await RedisAuth.get();
-                        session.Token = result.data;
-
-                        await RedisAuth.set(session);
+                        await RedisAuth.set(noken, session);
+                        next();
                     }
-                    next();
-                }).catch((error: any) => {
-                    Log.promiseError(error);
-                    res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
-                });
+                }
+                else {
+                    res.status(httpStatus.UNAUTHORIZED).send();
+                }
             }
             else {
-                next();
+                res.status(httpStatus.UNAUTHORIZED).send();
             }
         }
         else {
-            next();
+            res.status(httpStatus.UNAUTHORIZED).send();
         }
     }
     catch (error) {

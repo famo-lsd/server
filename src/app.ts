@@ -1,25 +1,17 @@
 import authentication from './controllers/authentication';
 import bodyParser from 'body-parser';
 import compression from 'compression';
-import connectRedis from 'connect-redis';
 import cors from 'cors';
 import erp from './controllers/erp';
 import express from 'express';
 import helmet from 'helmet';
 import log from './controllers/log';
 import platform from './controllers/platform';
-import redis from 'redis';
-import session from 'express-session';
+import RedisAuth from './utils/redisAuth';
 import shipments from './controllers/shipments';
 import tv from './controllers/tv';
-import uuidv4 from 'uuid/v4';
 import warehouse from './controllers/warehouse';
-import { MONTH_MS, SESSION_NAME } from './utils/variablesRepo';
 import { trackRequest } from './utils/middleware';
-
-// redis - session
-const redisStore = connectRedis(session),
-    redisClient = redis.createClient(3035, "localhost");
 
 // express
 const app = express();
@@ -38,27 +30,6 @@ app.use(helmet());
 app.use(cors({
     origin: true,
     credentials: true
-}));
-
-// session
-app.use(session({
-    store: new redisStore({
-        client: redisClient,
-        ttl: (MONTH_MS / 2) / 1000
-    }),
-    secret: 'famo_pda_session_sk',
-    cookie: {
-        httpOnly: true,
-        maxAge: MONTH_MS / 2,
-        sameSite: true,
-        secure: false
-    },
-    genid: (req: any) => { // eslint-disable-line @typescript-eslint/no-unused-vars
-        return uuidv4();
-    },
-    name: SESSION_NAME,
-    saveUninitialized: true,
-    resave: true
 }));
 
 // access
@@ -80,3 +51,8 @@ app.use(express.static(__dirname.replace('dist', 'public')));
 app.listen(9070, () => {
     console.log('Start server...');
 });
+
+// clean invalid keys (every day)
+setInterval(async () => {
+    await RedisAuth.cleanKeys();
+}, 86400000);
