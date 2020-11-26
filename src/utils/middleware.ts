@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import httpStatus from 'http-status';
 import Log from './log';
-import RedisAuth from './redisAuth';
+import Redis from './redis';
 import { getNoken, refreshToken } from './http';
 import { MONTH_DAYS } from './variablesRepo';
 
@@ -9,7 +9,7 @@ export async function checkToken(req: any, res: any, next: Function) {
     try {
         if (req.headers.authorization) {
             const noken = getNoken(req),
-                session = (await RedisAuth.get(noken)),
+                session = (await Redis.get(noken)),
                 sessionExpirationDate = new Date(session.ExpirationDate),
                 currentUtcDate = new Date(new Date().toUTCString());
 
@@ -27,7 +27,7 @@ export async function checkToken(req: any, res: any, next: Function) {
                         refreshToken(token).then(async (result: any) => {
                             session.Data.Token = result.data;
 
-                            await RedisAuth.set(noken, session);
+                            await Redis.set(noken, session);
                             next();
                         }).catch((error: any) => {
                             Log.promiseError(error);
@@ -35,7 +35,7 @@ export async function checkToken(req: any, res: any, next: Function) {
                         });
                     }
                     else {
-                        await RedisAuth.set(noken, session);
+                        await Redis.set(noken, session);
                         next();
                     }
                 }

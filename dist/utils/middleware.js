@@ -16,14 +16,14 @@ exports.trackRequest = exports.checkToken = void 0;
 const lodash_1 = __importDefault(require("lodash"));
 const http_status_1 = __importDefault(require("http-status"));
 const log_1 = __importDefault(require("./log"));
-const redisAuth_1 = __importDefault(require("./redisAuth"));
+const redis_1 = __importDefault(require("./redis"));
 const http_1 = require("./http");
 const variablesRepo_1 = require("./variablesRepo");
 function checkToken(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             if (req.headers.authorization) {
-                const noken = http_1.getNoken(req), session = (yield redisAuth_1.default.get(noken)), sessionExpirationDate = new Date(session.ExpirationDate), currentUtcDate = new Date(new Date().toUTCString());
+                const noken = http_1.getNoken(req), session = (yield redis_1.default.get(noken)), sessionExpirationDate = new Date(session.ExpirationDate), currentUtcDate = new Date(new Date().toUTCString());
                 if (sessionExpirationDate > currentUtcDate) {
                     const token = session.Data.Token;
                     if (token) {
@@ -33,7 +33,7 @@ function checkToken(req, res, next) {
                         if (currentUtcDate > tokenExpirationDate) {
                             http_1.refreshToken(token).then((result) => __awaiter(this, void 0, void 0, function* () {
                                 session.Data.Token = result.data;
-                                yield redisAuth_1.default.set(noken, session);
+                                yield redis_1.default.set(noken, session);
                                 next();
                             })).catch((error) => {
                                 log_1.default.promiseError(error);
@@ -41,7 +41,7 @@ function checkToken(req, res, next) {
                             });
                         }
                         else {
-                            yield redisAuth_1.default.set(noken, session);
+                            yield redis_1.default.set(noken, session);
                             next();
                         }
                     }

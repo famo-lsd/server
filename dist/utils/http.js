@@ -15,14 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.refreshToken = exports.getNoken = exports.authorize = void 0;
 const axios_1 = __importDefault(require("axios"));
 const querystring_1 = __importDefault(require("querystring"));
-const redisAuth_1 = __importDefault(require("./redisAuth"));
+const redis_1 = __importDefault(require("./redis"));
 const variablesRepo_1 = require("../utils/variablesRepo");
 function authorize(req, config) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!config.headers) {
             config.headers = {};
         }
-        config.headers.Authorization = 'bearer ' + (yield redisAuth_1.default.get(getNoken(req))).Data.Token.access_token;
+        config.headers.Authorization = 'bearer ' + (yield redis_1.default.get(getNoken(req))).Data.Token.access_token;
         return config;
     });
 }

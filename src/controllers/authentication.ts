@@ -3,7 +3,7 @@ import express from 'express';
 import httpStatus from 'http-status';
 import Log from '../utils/log';
 import querystring from 'querystring';
-import RedisAuth from '../utils/redisAuth';
+import Redis from '../utils/redis';
 import uuidv4 from 'uuid/v4';
 import { AUTH_SERVER, CODE_API, MONTH_DAYS } from '../utils/variablesRepo';
 import { checkToken } from '../utils/middleware';
@@ -44,7 +44,7 @@ function signIn(req: any, res: any, username: string = null, password: string = 
                     expirationDate = new Date();
 
                 expirationDate.setDate(expirationDate.getDate() + (MONTH_DAYS / 2));
-                await RedisAuth.set(uuid, { Data: { AuthUser: authUserResult.data, Token: tokenResult.data }, ExpirationDate: expirationDate.toUTCString() });
+                await Redis.set(uuid, { Data: { AuthUser: authUserResult.data, Token: tokenResult.data }, ExpirationDate: expirationDate.toUTCString() });
 
                 res.send({ AuthUser: authUserResult.data, Token: uuid });
             }
@@ -72,7 +72,7 @@ router.get('/AutoSignIn', (req: any, res: any) => {
 
 router.get('/SignOut', checkToken, async (req: any, res: any) => {
     try {
-        await RedisAuth.del(getNoken(req));
+        await Redis.del(getNoken(req));
     }
     catch (error) {
         Log.error(error.message, error.stack, { method: req.method, url: req.path, statusCode: httpStatus.INTERNAL_SERVER_ERROR });
@@ -82,7 +82,7 @@ router.get('/SignOut', checkToken, async (req: any, res: any) => {
 
 router.get('/Session/User', checkToken, async (req: any, res: any) => {
     try {
-        const authUser = (await RedisAuth.get(getNoken(req))).Data.AuthUser;
+        const authUser = (await Redis.get(getNoken(req))).Data.AuthUser;
 
         if (authUser) {
             res.send(authUser);

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import moment from 'moment';
-import RedisAuth from './redisAuth';
+import Redis from './redis';
 import { getNoken } from './http';
 import { LOG_DATETIME_FORMAT, LOG_FOLDER } from './variablesRepo';
 
@@ -62,7 +62,7 @@ export default class Log {
     }
 
     public static async tracking(req: any) {
-        const session = (await RedisAuth.get(getNoken(req))),
+        const session = (await Redis.get(getNoken(req))),
             trackingFolder = LOG_FOLDER + 'tracking/',
             logFile = trackingFolder + moment().format('DD_MM_YYYY') + '.log',
             message = moment().format(LOG_DATETIME_FORMAT) + ' '

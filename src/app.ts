@@ -7,7 +7,6 @@ import express from 'express';
 import helmet from 'helmet';
 import log from './controllers/log';
 import platform from './controllers/platform';
-import RedisAuth from './utils/redisAuth';
 import shipments from './controllers/shipments';
 import tv from './controllers/tv';
 import warehouse from './controllers/warehouse';
@@ -51,8 +50,3 @@ app.use(express.static(__dirname.replace('dist', 'public')));
 app.listen(9070, () => {
     console.log('Start server...');
 });
-
-// clean invalid keys (every day)
-setInterval(async () => {
-    await RedisAuth.cleanKeys();
-}, 86400000);

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const redis_1 = __importDefault(require("redis"));
 const util_1 = __importDefault(require("util"));
 const client = redis_1.default.createClient(3035, "localhost"), namespace = 'node_session:';
-class RedisAuth {
+class Redis {
     static get(key) {
         return __awaiter(this, void 0, void 0, function* () {
             const value = yield (util_1.default.promisify(client.get).bind(client))(namespace + key);
@@ -43,5 +43,5 @@ class RedisAuth {
         });
     }
 }
-exports.default = RedisAuth;
-//# sourceMappingURL=redisAuth.js.map
+exports.default = Redis;
+//# sourceMappingURL=redis.js.map

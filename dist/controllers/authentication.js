@@ -17,7 +17,7 @@ const express_1 = __importDefault(require("express"));
 const http_status_1 = __importDefault(require("http-status"));
 const log_1 = __importDefault(require("../utils/log"));
 const querystring_1 = __importDefault(require("querystring"));
-const redisAuth_1 = __importDefault(require("../utils/redisAuth"));
+const redis_1 = __importDefault(require("../utils/redis"));
 const v4_1 = __importDefault(require("uuid/v4"));
 const variablesRepo_1 = require("../utils/variablesRepo");
 const middleware_1 = require("../utils/middleware");
@@ -53,7 +53,7 @@ function signIn(req, res, username = null, password = null) {
             try {
                 const uuid = v4_1.default(), expirationDate = new Date();
                 expirationDate.setDate(expirationDate.getDate() + (variablesRepo_1.MONTH_DAYS / 2));
-                yield redisAuth_1.default.set(uuid, { Data: { AuthUser: authUserResult.data, Token: tokenResult.data }, ExpirationDate: expirationDate.toUTCString() });
+                yield redis_1.default.set(uuid, { Data: { AuthUser: authUserResult.data, Token: tokenResult.data }, ExpirationDate: expirationDate.toUTCString() });
                 res.send({ AuthUser: authUserResult.data, Token: uuid });
             }
             catch (error) {
@@ -77,7 +77,7 @@ router.get('/AutoSignIn', (req, res) => {
 });
 router.get('/SignOut', middleware_1.checkToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield redisAuth_1.default.del(http_1.getNoken(req));
+        yield redis_1.default.del(http_1.getNoken(req));
     }
     catch (error) {
         log_1.default.error(error.message, error.stack, { method: req.method, url: req.path, statusCode: http_status_1.default.INTERNAL_SERVER_ERROR });
@@ -86,7 +86,7 @@ router.get('/SignOut', middleware_1.checkToken, (req, res) => __awaiter(void 0, 
 }));
 router.get('/Session/User', middleware_1.checkToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const authUser = (yield redisAuth_1.default.get(http_1.getNoken(req))).Data.AuthUser;
+        const authUser = (yield redis_1.default.get(http_1.getNoken(req))).Data.AuthUser;
         if (authUser) {
             res.send(authUser);
         }

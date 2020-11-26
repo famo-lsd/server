@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const moment_1 = __importDefault(require("moment"));
-const redisAuth_1 = __importDefault(require("./redisAuth"));
+const redis_1 = __importDefault(require("./redis"));
 const http_1 = require("./http");
 const variablesRepo_1 = require("./variablesRepo");
 ;
@@ -56,7 +56,7 @@ class Log {
     }
     static tracking(req) {
         return __awaiter(this, void 0, void 0, function* () {
-            const session = (yield redisAuth_1.default.get(http_1.getNoken(req))), trackingFolder = variablesRepo_1.LOG_FOLDER + 'tracking/', logFile = trackingFolder + moment_1.default().format('DD_MM_YYYY') + '.log', message = moment_1.default().format(variablesRepo_1.LOG_DATETIME_FORMAT) + ' '
+            const session = (yield redis_1.default.get(http_1.getNoken(req))), trackingFolder = variablesRepo_1.LOG_FOLDER + 'tracking/', logFile = trackingFolder + moment_1.default().format('DD_MM_YYYY') + '.log', message = moment_1.default().format(variablesRepo_1.LOG_DATETIME_FORMAT) + ' '
                 + req.ip.padEnd(25) + ' '
                 + req.hostname.padEnd(20) + ' '
                 + req.httpVersion.padEnd(5) + ' '

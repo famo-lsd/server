@@ -12,7 +12,7 @@ interface RedisSession {
 const client = redis.createClient(3035, "localhost"),
     namespace = 'node_session:';
 
-export default class RedisAuth {
+export default class Redis {
     static async get(key: string): Promise<RedisSession> {
         const value = await (util.promisify(client.get).bind(client))(namespace + key);
         return value ? JSON.parse(value) : { Data: { AuthUser: null, Token: null }, ExpirationDate: new Date(-8640000000000000).toUTCString() };

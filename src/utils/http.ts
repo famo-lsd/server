@@ -1,6 +1,6 @@
 import axios from 'axios';
 import querystring from 'querystring';
-import RedisAuth from './redisAuth';
+import Redis from './redis';
 import { AUTH_SERVER, NODE_TOKEN_PREFIX } from '../utils/variablesRepo';
 
 export async function authorize(req: any, config: any) {
@@ -8,7 +8,7 @@ export async function authorize(req: any, config: any) {
         config.headers = {};
     }
 
-    config.headers.Authorization = 'bearer ' + (await RedisAuth.get(getNoken(req))).Data.Token.access_token; // eslint-disable-line @typescript-eslint/no-use-before-define
+    config.headers.Authorization = 'bearer ' + (await Redis.get(getNoken(req))).Data.Token.access_token; // eslint-disable-line @typescript-eslint/no-use-before-define
     return config;
 }
 
