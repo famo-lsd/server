@@ -1,5 +1,0 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SHOPFLOOR_API = exports.NODE_TOKEN_PREFIX = exports.MONTH_DAYS = exports.LOG_FOLDER = exports.LOG_DATETIME_FORMAT = exports.CODE_API = exports.AUTH_SERVER = exports.ANDROID_APP_ID = void 0;
-exports.ANDROID_APP_ID = 'famo.pda', exports.AUTH_SERVER = process.env.NODE_ENV === 'production' ? 'http://dionisio.famo.pt:9060/FAMO.Authentication/' : 'http://localhost/FAMO.Authentication/', exports.CODE_API = process.env.NODE_ENV === 'production' ? 'http://dionisio.famo.pt:9060/FAMO.CODE_API/' : 'http://localhost/FAMO.CODE_API/', exports.LOG_DATETIME_FORMAT = 'DD/MM/YYYY HH:mm:ss.SSS', exports.LOG_FOLDER = __dirname.replace('dist\\utils', 'log\\'), exports.MONTH_DAYS = 30, exports.NODE_TOKEN_PREFIX = 'noken', exports.SHOPFLOOR_API = process.env.NODE_ENV === 'production' ? 'http://dionisio.famo.pt:9060/FAMO.ShopFloor_API/' : 'http://localhost/FAMO.ShopFloor_API/';
-//# sourceMappingURL=variablesRepo.js.map

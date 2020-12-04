@@ -1,4 +1,4 @@
 # dependencies
-/dist/**/*.js.map
+/dist/*
 /log/*
 /node_modules
