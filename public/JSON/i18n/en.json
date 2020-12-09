@@ -886,8 +886,11 @@
     "key_899": "Pack.",
     "key_900": "Pack. (s)",
     "key_901": "Remove",
-    "key_902": "If you place the package in this warehouse, the order will be distributed in more than one warehouse.",
+    "key_902": "If you place the packaging in this warehouse, order will be in several warehouses.",
     "key_903": "Transf. order",
     "key_904": "Transf. package",
-    "key_905": "Transfer package"
+    "key_905": "Transfer package",
+    "key_906": "To be defined",
+    "key_907": "Load",
+    "key_908": "Occupation"
 }

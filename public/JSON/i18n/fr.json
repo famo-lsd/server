@@ -886,8 +886,11 @@
     "key_899": "Emb.",
     "key_900": "Emb. (s)",
     "key_901": "Enlever",
-    "key_902": "Si vous placez l'emballage dans cet entrepôt, vous aurez des emballages de la même commande distribués par plus d'un entrepôt. ",
+    "key_902": "Si vous placez l'emballage dans cet entrepôt, vous aurez des emballages de la même commande distribués par plus d'un entrepôt.",
     "key_903": "Transf. l'emballage",
     "key_904": "Transf. l'emballage",
-    "key_905": "Transférer l'emballage"
+    "key_905": "Transférer l'emballage",
+    "key_906": "À définir",
+    "key_907": "Charge",
+    "key_908": "Occupation"
 }
