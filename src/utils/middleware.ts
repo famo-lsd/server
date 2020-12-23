@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import httpStatus from 'http-status';
 import Log from './log';
+import querystring from 'querystring';
 import Redis from './redis';
 import { getNoken, refreshToken } from './http';
 import { MONTH_DAYS } from './variablesRepo';
@@ -58,6 +59,11 @@ export async function checkToken(req: any, res: any, next: Function) {
 }
 
 export function trackRequest(req: any, res: any, next: Function) {
-    Log.tracking(req);
+    const qs = querystring.parse(req.url);
+
+    if (!((req.url as string).startsWith('/Warehouse/Bins/Orders?') && qs.binCode && qs.languageCode) && !((req.url as string).startsWith('/Warehouse/Bins?') && qs.code && qs.languageCode) && !(req.url as string).startsWith('/TV')) {
+        Log.tracking(req);
+    }
+
     next();
 }

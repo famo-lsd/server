@@ -45,20 +45,23 @@ export default class Log {
 
     public static externalHttpError(appName: string, res: any) {
         const folder = LOG_FOLDER + 'errors/' + appName + '/',
-            logFile = folder + moment().format('DD_MM_YYYY') + '.log',
-            message = ('Date: ' + moment().format(LOG_DATETIME_FORMAT) + '\n'
+            logFile = folder + moment().format('DD_MM_YYYY') + '.log';
+
+        if (res && Object.keys(res).length !== 0) {
+            const message = ('Date: ' + moment().format(LOG_DATETIME_FORMAT) + '\n'
                 + 'Message: ' + res.statusText + ' (' + res.status + ')' + '\n'
                 + 'Url: ' + res.url + '\n\n');
 
-        if (!fs.existsSync(folder)) {
-            fs.mkdirSync(folder, { recursive: true });
-        }
-
-        fs.appendFile(logFile, message, (err: any) => {
-            if (err) {
-                console.log('[' + moment().format(LOG_DATETIME_FORMAT) + '] ' + err + '\n\n');
+            if (!fs.existsSync(folder)) {
+                fs.mkdirSync(folder, { recursive: true });
             }
-        });
+
+            fs.appendFile(logFile, message, (err: any) => {
+                if (err) {
+                    console.log('[' + moment().format(LOG_DATETIME_FORMAT) + '] ' + err + '\n\n');
+                }
+            });
+        }
     }
 
     public static async tracking(req: any) {
