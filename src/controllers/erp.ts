@@ -10,6 +10,18 @@ const router = express.Router();
 
 router.use(checkToken);
 
+router.get('/Boxes', async (req: any, res: any) => {
+    axios(await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Navision/Boxes' + createQueryString(req.query)
+    })).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
+    });
+});
+
 router.get('/Inventories', async (req: any, res: any) => {
     axios(await authorize(req, {
         method: 'GET',
@@ -50,10 +62,22 @@ router.patch('/Inventories/Lines', async (req: any, res: any) => {
     });
 });
 
-router.get('/Boxes', async (req: any, res: any) => {
+router.get('/Orders', async (req: any, res: any) => {
     axios(await authorize(req, {
         method: 'GET',
-        url: SHOPFLOOR_API + 'api/Navision/Boxes' + createQueryString(req.query)
+        url: SHOPFLOOR_API + 'api/Navision/Orders' + createQueryString(req.query)
+    })).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
+    });
+});
+
+router.get('/Packages/Pending/Orders', async (req: any, res: any) => {
+    axios(await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Navision/Packages/Pending/Orders' + createQueryString(req.query)
     })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
@@ -146,30 +170,6 @@ router.get('/Shipments', async (req: any, res: any) => {
     });
 });
 
-router.get('/Shipments/Products', async (req: any, res: any) => {
-    axios(await authorize(req, {
-        method: 'GET',
-        url: SHOPFLOOR_API + 'api/Navision/Shipments/Products' + createQueryString(req.query)
-    })).then((result: any) => {
-        res.send(result.data);
-    }).catch((error: any) => {
-        Log.promiseError(error);
-        res.status(error.response.status).send(error.response.data);
-    });
-});
-
-router.get('/Shipments/Products/Components', async (req: any, res: any) => {
-    axios(await authorize(req, {
-        method: 'GET',
-        url: SHOPFLOOR_API + 'api/Navision/Shipments/Products/Components' + createQueryString(req.query)
-    })).then((result: any) => {
-        res.send(result.data);
-    }).catch((error: any) => {
-        Log.promiseError(error);
-        res.status(error.response.status).send(error.response.data);
-    });
-});
-
 router.get('/Shipments/Boxes', async (req: any, res: any) => {
     axios(await authorize(req, {
         method: 'GET',
@@ -190,6 +190,30 @@ router.post('/Shipments/Boxes', async (req: any, res: any) => {
             'Content-Type': 'application/json',
         },
         data: JSON.stringify(req.body)
+    })).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
+    });
+});
+
+router.get('/Shipments/Products', async (req: any, res: any) => {
+    axios(await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Navision/Shipments/Products' + createQueryString(req.query)
+    })).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
+    });
+});
+
+router.get('/Shipments/Products/Components', async (req: any, res: any) => {
+    axios(await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Navision/Shipments/Products/Components' + createQueryString(req.query)
     })).then((result: any) => {
         res.send(result.data);
     }).catch((error: any) => {
