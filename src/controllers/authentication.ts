@@ -5,7 +5,7 @@ import Log from '../utils/log';
 import querystring from 'querystring';
 import Redis from '../utils/redis';
 import uuidv4 from 'uuid/v4';
-import { AUTH_SERVER, CODE_API, MONTH_DAYS } from '../utils/variablesRepo';
+import { AUTH_SERVER, MONTH_DAYS, SHOPFLOOR_API } from '../utils/variablesRepo';
 import { checkToken } from '../utils/middleware';
 import { getNoken } from '../utils/http';
 
@@ -14,13 +14,13 @@ const router = express.Router();
 function getAuthUser(accessToken: string, username: string) {
     return axios({
         method: 'POST',
-        url: CODE_API + 'api/Authorization/PDA',
+        url: SHOPFLOOR_API + 'api/Authorization/PDA',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + accessToken
         },
         data: {
-            username: username
+            employeeID: username
         }
     });
 }
@@ -35,7 +35,8 @@ function signIn(req: any, res: any, username: string = null, password: string = 
         data: querystring.stringify({
             grant_type: 'password', // eslint-disable-line @typescript-eslint/camelcase
             username: !username ? req.body.username : username,
-            password: !password ? req.body.password : password
+            password: !password ? req.body.password : password,
+            application: 'ShopFloor'
         })
     }).then((tokenResult: any) => {
         getAuthUser(tokenResult.data.access_token, !username ? req.body.username : username).then(async (authUserResult: any) => {
@@ -67,7 +68,7 @@ router.post('/SignIn', (req: any, res: any) => {
 });
 
 router.get('/AutoSignIn', (req: any, res: any) => {
-    signIn(req, res, 'nodejs', 'nodejs');
+    signIn(req, res, '1300', '123');
 });
 
 router.get('/SignOut', checkToken, async (req: any, res: any) => {

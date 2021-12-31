@@ -1,6 +1,5 @@
 export const ANDROID_APP_ID = 'famo.pda',
     AUTH_SERVER = process.env.NODE_ENV === 'production' ? 'http://dionisio.famo.pt:9050/FAMO.Authentication/' : 'http://localhost/FAMO.Authentication/',
-    CODE_API = process.env.NODE_ENV === 'production' ? 'http://dionisio.famo.pt:9055/FAMO.CODE_API/' : 'http://localhost/FAMO.CODE_API/',
     LOG_DATETIME_FORMAT = 'DD/MM/YYYY HH:mm:ss.SSS',
     LOG_FOLDER = __dirname.replace('dist\\utils', 'log\\'),
     MONTH_DAYS = 30,
