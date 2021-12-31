@@ -1,1 +1,1 @@
-pm2 delete all
+pm2 delete -s all
