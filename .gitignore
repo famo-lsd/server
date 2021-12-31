@@ -1,4 +1,7 @@
-# dependencies
+# to ignore
 /dist/*
 /log/*
 /node_modules
+
+# not to ignore
+!/dist/README.md
