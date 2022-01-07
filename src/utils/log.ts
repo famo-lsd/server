@@ -73,7 +73,7 @@ export default class Log {
                 + req.hostname.padEnd(20) + ' '
                 + req.httpVersion.padEnd(5) + ' '
                 + req.method.padEnd(5) + ' '
-                + (session.Data.AuthUser ? ' ' + session.Data.AuthUser.Username : '').padEnd(32) + ' '
+                + (session.Data.AuthUser ? ' ' + session.Data.AuthUser.EmployeeID : '').padEnd(32) + ' '
                 + req.url
                 + '\n';
 

@@ -5,3 +5,4 @@
 
 # not to ignore
 !/dist/README.md
+!/log/README.md

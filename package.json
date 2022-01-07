@@ -35,7 +35,7 @@
     "name": "server",
     "scripts": {
         "delete:dist": "del dist\\*.js* /s /q",
-        "delete:log": "del log\\* /s /q",
+        "delete:log": "del log\\*.log /s /q",
         "lint": "eslint src/**/*.ts",
         "watch:ts": "watch \"npm run compile:ts\" src",
         "watch:app:js": "nodemon --watch dist --ext js dist/app.js",
