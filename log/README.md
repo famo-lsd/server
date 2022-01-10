@@ -1,1 +1,0 @@
-- Garante que a pasta é criada com sucesso.
