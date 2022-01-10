@@ -222,4 +222,16 @@ router.get('/Shipments/Products/Components', async (req: any, res: any) => {
     });
 });
 
+router.get('/Warehouse/Pending/Orders', async (req: any, res: any) => {
+    axios(await authorize(req, {
+        method: 'GET',
+        url: SHOPFLOOR_API + 'api/Navision/Warehouse/Pending/Orders' + createQueryString(req.query)
+    })).then((result: any) => {
+        res.send(result.data);
+    }).catch((error: any) => {
+        Log.promiseError(error);
+        res.status(error.response.status).send(error.response.data);
+    });
+});
+
 export default router;
