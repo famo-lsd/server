@@ -68,7 +68,7 @@ router.post('/SignIn', (req: any, res: any) => {
 });
 
 router.get('/AutoSignIn', (req: any, res: any) => {
-    signIn(req, res, '1300', '321');
+    signIn(req, res, '1300', '123');
 });
 
 router.get('/SignOut', checkToken, async (req: any, res: any) => {
