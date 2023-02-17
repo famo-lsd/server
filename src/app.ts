@@ -11,6 +11,8 @@ import receiveOT from './controllers/receiveOT';
 import shipments from './controllers/shipments';
 import tv from './controllers/tv';
 import warehouse from './controllers/warehouse';
+import workCenter from './controllers/workCenter';
+import productivity from './controllers/productivity';
 import { trackRequest } from './utils/middleware';
 
 // express
@@ -44,6 +46,9 @@ app.use('/ReceiveOT', receiveOT);
 app.use('/Shipments', shipments);
 app.use('/TV', tv);
 app.use('/Warehouse', warehouse);
+app.use('/WorkCenters', workCenter);
+app.use('/Productivity', productivity);
+
 
 // static
 app.use(express.static(__dirname.replace('dist', 'public')));
