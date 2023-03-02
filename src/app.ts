@@ -13,6 +13,7 @@ import tv from './controllers/tv';
 import warehouse from './controllers/warehouse';
 import workCenter from './controllers/workCenter';
 import productivity from './controllers/productivity';
+import painting from './controllers/painting';
 import { trackRequest } from './utils/middleware';
 
 // express
@@ -48,7 +49,7 @@ app.use('/TV', tv);
 app.use('/Warehouse', warehouse);
 app.use('/WorkCenters', workCenter);
 app.use('/Productivity', productivity);
-
+app.use('/Painting', painting);
 
 // static
 app.use(express.static(__dirname.replace('dist', 'public')));
